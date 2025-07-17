@@ -14,14 +14,14 @@ function Header() {
             <img src="./vettylogo.png" alt="Vettylogo" />
         </div>
 
-        {/* Hamburger Icon */}
+      
         <div className="hamburger" onClick={toggleMenu}>
           <div className={isOpen ? "bar open" : "bar"}></div>
           <div className={isOpen ? "bar open" : "bar"}></div>
           <div className={isOpen ? "bar open" : "bar"}></div>
         </div>
 
-        {/* Nav Links */}
+        
         <div className={isOpen ? "nav-links open" : "nav-links"}>
           <Link to="/" onClick={() => setIsOpen(false)}>
             Home
