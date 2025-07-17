@@ -1,12 +1,21 @@
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import ForgotPassword from "./components/auth/ForgotPassword";
-export default function App() {
+import React from "react";
+import Header from "./components/common/Header";
+import './App.css'
+
+function App() {
   return (
-    <div>
-      <Register />
-      <Login />
-      <ForgotPassword />
+    <div className="App">
+        <Header />
+<Routes>
+<Route path="/register"  element={<Register/>}/>
+<Route path="/login" element={<Login/>}/>
+<Route path="/forgot-password" element={<ForgotPassword/>}/>
+</Routes>
     </div>
   );
 }
+
+export default App;

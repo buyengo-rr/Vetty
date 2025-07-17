@@ -1,0 +1,111 @@
+body {
+    padding-top: 80px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Header */
+.navbar {
+    width: 100%;
+    background-color: #002f6c;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+/* Flex container */
+.navbar-container {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+/* Logo */
+.logo img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+/* Nav Links */
+.nav-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-links a:hover {
+    background-color: #00c6ff;
+    color: #002f6c;
+}
+
+/* LOGIN Button style */
+.login-button {
+    background-color: #ffdd57;
+    color: #002f6c;
+    font-weight: 600;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #ffc800;
+    color: black;
+}
+
+/* Responsive - Mobile */
+@media (max-width: 768px) {
+    .nav-links {
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        background-color: #004b99;
+        padding: 20px;
+        border-radius: 8px;
+        display: none;
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .hamburger {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+    }
+
+    .bar {
+        width: 25px;
+        height: 3px;
+        background-color: white;
+        transition: all 0.3s ease;
+    }
+
+    .bar.open:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .bar.open:nth-child(2) {
+        opacity: 0;
+    }
+
+    .bar.open:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+    }
+}
