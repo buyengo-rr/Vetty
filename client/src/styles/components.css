@@ -52,7 +52,7 @@ body {
     color: #002f6c;
 }
 
-/* LOGIN Button style */
+
 .login-button {
     background-color: #ffdd57;
     color: #002f6c;
@@ -112,3 +112,62 @@ body {
 
 
 
+/* Footer Styles */
+
+.footer {
+    background-color: #120348;
+    color: #ddd;
+    padding: 2rem 1rem;
+    margin-top: 2rem;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: auto;
+    text-align: center;
+}
+
+.footer-logo img {
+    height: 40px;
+    margin-bottom: 1rem;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.footer-links a {
+    color: #ddd;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #ffdd57;
+}
+
+.footer-social {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.footer-social a {
+    color: #ddd;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.footer-social a:hover {
+    color: #ffdd57;
+}
+
+.footer-copy {
+    font-size: 0.9rem;
+    color: #aaa;
+}
