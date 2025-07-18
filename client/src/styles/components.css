@@ -14,7 +14,7 @@ body {
     z-index: 1000;
 }
 
-/* Flex container */
+
 .navbar-container {
     max-width: 1200px;
     margin: auto;
@@ -24,14 +24,14 @@ body {
     color: white;
 }
 
-/* Logo */
+
 .logo img {
     height: 50px;
     width: 50px;
     border-radius: 50%;
 }
 
-/* Nav Links */
+
 .nav-links {
     display: flex;
     gap: 20px;
@@ -109,3 +109,6 @@ body {
         transform: rotate(-45deg) translate(5px, -5px);
     }
 }
+
+
+
