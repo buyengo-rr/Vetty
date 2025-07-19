@@ -8,3 +8,137 @@ body {
     margin: 0;
     padding: 0;
 }
+/* App.css */
+.App {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+}
+
+.app-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition: opacity 0.3s ease;
+}
+
+.app-container.loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.main-content {
+  flex: 1;
+}
+
+/* Loading spinner */
+.page-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #002f6c;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 404 Page */
+.not-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  padding: 2rem;
+  text-align: center;
+}
+
+.error-content {
+  max-width: 500px;
+}
+
+.error-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.error-content h1 {
+  font-size: 2.5rem;
+  color: #002f6c;
+  margin-bottom: 1rem;
+}
+
+.error-content p {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+/* Scroll to top button */
+.scroll-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background-color: #002f6c;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 99;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.scroll-to-top:hover {
+  background-color: #001a3d;
+  transform: translateY(-3px);
+}
+
+.scroll-to-top svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .error-content h1 {
+    font-size: 2rem;
+  }
+  
+  .scroll-to-top {
+    width: 40px;
+    height: 40px;
+    bottom: 20px;
+    right: 20px;
+  }
+}
