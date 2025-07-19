@@ -1060,17 +1060,19 @@ main {
 
 
 /* sidebar */
+/* === Sidebar Styles === */
 .sidebar {
-  width: 220px;
-  height: 100vh;
-  background-color: #203a43;
-  color: white;
-  padding: 20px;
   position: fixed;
   top: 0;
   left: 0;
-  transition: transform 0.3s ease-in-out;
-  z-index: 1000;
+  height: 100vh;
+  width: 250px;
+  background: linear-gradient(145deg, #0d6efd, #1e90ff);
+  color: #fff;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+  transition: transform 0.3s ease, width 0.3s ease;
+  z-index: 200;
 }
 
 .sidebar.collapsed {
@@ -1078,13 +1080,14 @@ main {
 }
 
 .sidebar.open {
-  transform: translateX(0);
+  transform: translateX(0%);
 }
 
 .sidebar-title {
-  font-size: 1.4rem;
-  margin-bottom: 20px;
-  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 600;
 }
 
 .sidebar-links {
@@ -1093,42 +1096,257 @@ main {
 }
 
 .sidebar-links li {
-  margin: 10px 0;
+  margin-bottom: 1.2rem;
 }
 
 .sidebar-links a {
+  display: block;
   color: white;
+  padding: 0.6rem 1rem;
   text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background 0.3s ease;
 }
 
-.sidebar-links a:hover {
-  text-decoration: underline;
+.sidebar-links a:hover,
+.sidebar-links a.active {
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
+/* Sidebar Toggle Button */
 .sidebar-toggle {
   position: fixed;
-  top: 15px;
-  left: 15px;
-  background: #203a43;
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  z-index: 1100;
+  top: 1rem;
+  left: 1rem;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  padding: 0.5rem;
+  z-index: 300;
   cursor: pointer;
-  display: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 
-/* Show toggle button and sidebar collapsed on smaller screens */
+/* Backdrop for Mobile */
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 150;
+}
+
+/* Main content spacing */
+.main-content {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
+}
+
 @media screen and (max-width: 768px) {
   .sidebar {
     transform: translateX(-100%);
   }
 
   .sidebar.open {
-    transform: translateX(0);
+    transform: translateX(0%);
   }
 
-  .sidebar-toggle {
-    display: block;
+  .main-content {
+    margin-left: 0 !important;
+  }
+}
+
+/* Dashboard */
+
+
+.dashboard-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+  color: #1a1a1a;
+  font-family: "Inter", sans-serif;
+}
+
+.dashboard-container h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+/* Summary Cards */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background: #f0f4ff;
+  border-left: 5px solid #007bff;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  background: #e5efff;
+}
+
+.card-icon {
+  font-size: 2rem;
+  color: #007bff;
+}
+
+.card-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.3rem;
+}
+
+.card-value {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* CTA Buttons */
+.cta-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.cta-links .btn {
+  background-color: #007bff;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.cta-links .btn:hover {
+  background-color: #0056cc;
+}
+
+/* Recent Activity Section */
+.recent-activity {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  border-left: 5px solid #ffc107;
+}
+
+.recent-activity h3 {
+  display: flex;
+  align-items: center;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.recent-activity .section-icon {
+  margin-right: 0.5rem;
+  color: #ffc107;
+  font-size: 1.4rem;
+}
+
+.recent-activity ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.recent-activity li {
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  border-left: 3px solid #eee;
+  padding-left: 0.75rem;
+  position: relative;
+}
+
+.recent-activity .activity-time {
+  font-weight: 500;
+  color: #555;
+}
+
+
+.popular-products {
+  margin-top: 3rem;
+}
+
+.popular-products h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #1e3a8a;
+}
+
+.product-grid {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.product-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  width: 220px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.product-card h4 {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.product-card .price {
+  color: #1e3a8a;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.btn.small {
+  font-size: 0.85rem;
+  padding: 0.4rem 0.8rem;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .cta-links {
+    flex-direction: column;
+  }
+
+  .card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card-icon {
+    margin-bottom: 0.5rem;
   }
 }
