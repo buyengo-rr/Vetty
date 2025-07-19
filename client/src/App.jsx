@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Footer from './components/common/Footer';
 import Header from "./components/common/Header";
+import Sidebar from "./components/common/sidebar"; 
+
 import Home from './pages/Home';
+import Dashboard from './components/admin/Dashboard'; 
 import './App.css';
 
 function App() {
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
 
+  const isAuthenticated = !!localStorage.getItem("token");
+  const publicPaths = ["/", "/login", "/register"];
+  const isPublicPage = publicPaths.includes(location.pathname);
+
   useEffect(() => {
     // Scroll to top on route change
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    
+
     // Page transition effect
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -23,7 +31,7 @@ function App() {
     return () => clearTimeout(timer);
   }, [location]);
 
-  // Preload critical images
+  // Preload images
   useEffect(() => {
     const imageUrls = [
       '/hero-pets.jpg',
@@ -38,7 +46,6 @@ function App() {
       img.src = url;
     });
 
-    // Simulate loading completion
     const loadTimer = setTimeout(() => {
       setIsLoading(false);
     }, 1000);
@@ -55,18 +62,21 @@ function App() {
       )}
 
       <div className={`app-container ${isLoading ? 'loading' : ''}`}>
-        <Header />
-        
+        {/* Show Sidebar on protected pages, else Header */}
+        {isAuthenticated && !isPublicPage ? <Sidebar /> : <Header />}
+
         <main className="main-content">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/dashboard" element={<Dashboard />} /> {/* sample protected */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
 
-        <Footer />
+        {/* Show footer only on public pages */}
+        {isPublicPage && <Footer />}
         <ScrollToTop />
       </div>
     </div>
@@ -80,9 +90,7 @@ function NotFound() {
         <div className="error-icon">🐾</div>
         <h1>Page Not Found</h1>
         <p>Looks like this page wandered off! Let's get you back home.</p>
-        <a href="/" className="primary-button">
-          Go Home
-        </a>
+        <a href="/" className="primary-button">Go Home</a>
       </div>
     </div>
   );
@@ -105,10 +113,7 @@ function ScrollToTop() {
   }, []);
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -117,7 +122,7 @@ function ScrollToTop() {
       onClick={scrollToTop}
       aria-label="Scroll to top"
     >
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 24 24" fill="none">
         <path d="M7 14L12 9L17 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
     </button>
