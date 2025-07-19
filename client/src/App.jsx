@@ -1,23 +1,126 @@
+import React, { useEffect, useState } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Footer from './components/common/Footer';
-import Home from './pages/Home'; // Add this import
-import { Routes, Route } from "react-router-dom";
 import Header from "./components/common/Header";
+import Home from './pages/Home';
 import './App.css';
 
 function App() {
+  const location = useLocation();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Scroll to top on route change
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Page transition effect
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [location]);
+
+  // Preload critical images
+  useEffect(() => {
+    const imageUrls = [
+      '/hero-pets.jpg',
+      '/dog-checkup.jpg',
+      '/pet-grooming.jpg',
+      '/pet-surgery.jpg',
+      '/cta-pets.jpg'
+    ];
+
+    imageUrls.forEach(url => {
+      const img = new Image();
+      img.src = url;
+    });
+
+    // Simulate loading completion
+    const loadTimer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(loadTimer);
+  }, []);
+
   return (
     <div className="App">
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} /> {/* Set Home as the root route */}
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        {/* <Route path="/forgot-password" element={<ForgotPassword />} */}
-      </Routes>
-      <Footer />
+      {isLoading && (
+        <div className="page-loading">
+          <div className="loading-spinner"></div>
+        </div>
+      )}
+
+      <div className={`app-container ${isLoading ? 'loading' : ''}`}>
+        <Header />
+        
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+
+        <Footer />
+        <ScrollToTop />
+      </div>
     </div>
+  );
+}
+
+function NotFound() {
+  return (
+    <div className="not-found">
+      <div className="error-content">
+        <div className="error-icon">🐾</div>
+        <h1>Page Not Found</h1>
+        <p>Looks like this page wandered off! Let's get you back home.</p>
+        <a href="/" className="primary-button">
+          Go Home
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function ScrollToTop() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  return (
+    <button
+      className={`scroll-to-top ${isVisible ? 'visible' : ''}`}
+      onClick={scrollToTop}
+      aria-label="Scroll to top"
+    >
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 14L12 9L17 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </button>
   );
 }
 
