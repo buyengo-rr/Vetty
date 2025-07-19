@@ -1,7 +1,19 @@
 import React from 'react';
 
-const ProductList = () => {
-  return <div>Category Filter Component</div>;
+const CategoryFilter = ({ categories, selectedCategory, onCategoryChange }) => {
+  return (
+    <div className="category-filter">
+      {categories.map((category) => (
+        <button
+          key={category}
+          className={category === selectedCategory ? 'active' : ''}
+          onClick={() => onCategoryChange(category)}
+        >
+          {category}
+        </button>
+      ))}
+    </div>
+  );
 };
 
-export default ProductFilter;
+export default CategoryFilter;
