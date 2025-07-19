@@ -12,3 +12,22 @@ export default function Home() {
     </div>
   );
 }
+<section className="hero-section">
+  <div className="hero-background">
+    <div className="hero-overlay"></div>
+    <div className="hero-particles"></div>
+  </div>
+  <div className="hero-content">
+    <div className="hero-badge">
+      <span>✨ Trusted by 10,000+ Pet Owners</span>
+    </div>
+    <h1 className="hero-title">
+      Premium Pet Care
+      <span className="gradient-text">That Feels Like Family</span>
+    </h1>
+    <p className="hero-subtitle">
+      Experience compassionate veterinary care with state-of-the-art facilities 
+      and certified professionals who treat your pets like family
+    </p>
+  </div>
+</section>
