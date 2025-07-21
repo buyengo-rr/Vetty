@@ -10,6 +10,8 @@ import Sidebar from "./components/common/sidebar";
 import Home from './pages/Home';
 import AdminDashboard from './components/admin/Dashboard'; 
 import UserDashboard from "./components/user/Dashboard";
+import Products from './pages/Products';
+import Services from './pages/Services';
 import './App.css';
 
 function App() {
@@ -64,6 +66,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} /> 
             <Route path="/user/dashboard" element={<UserDashboard />} /> 
+            <Route path="/products" element={<Products />} />
+            <Route path="/services" element={<Services />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
