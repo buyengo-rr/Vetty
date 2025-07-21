@@ -11,6 +11,8 @@ import {
   FaUserCircle,
   FaSignOutAlt,
 } from "react-icons/fa";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../../styles/components.css";
 
 export default function Sidebar({ role = "user" }) {
@@ -18,7 +20,6 @@ export default function Sidebar({ role = "user" }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Auto-close on mobile when route changes
   useEffect(() => {
     if (window.innerWidth <= 768) setIsOpen(false);
   }, [location.pathname]);
@@ -26,8 +27,15 @@ export default function Sidebar({ role = "user" }) {
   const toggleSidebar = () => setIsOpen(!isOpen);
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // or sessionStorage depending on your setup
-    navigate("/login"); // redirect to login
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+    if (confirmLogout) {
+      localStorage.removeItem("token");
+      toast.success("Logged out successfully!", {
+        position: "center",
+        autoClose: 2000,
+      });
+      setTimeout(() => navigate("/login"), 2000); 
+    }
   };
 
   const userLinks = [
@@ -71,19 +79,15 @@ export default function Sidebar({ role = "user" }) {
             </li>
           ))}
 
-          {/* Logout link */}
           <li>
             <button className="sidebar-link logout-btn" onClick={handleLogout}>
-              <span className="sidebar-icon">
-                <FaSignOutAlt />
-              </span>
+              <span className="sidebar-icon"><FaSignOutAlt /></span>
               <span className="sidebar-label">Logout</span>
             </button>
           </li>
         </ul>
       </nav>
 
-      {/* Overlay on mobile */}
       {isOpen && window.innerWidth <= 768 && (
         <div className="sidebar-backdrop" onClick={toggleSidebar}></div>
       )}
