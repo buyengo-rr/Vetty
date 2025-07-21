@@ -27,7 +27,7 @@ const ProductList = ({ products }) => {
         selectedCategory={selectedCategory}
         onCategoryChange={handleCategoryChange}
       />
-      <div className="product-list">
+      <div className="product-grid">
         {filteredProducts.map((product) => (
           <ProductCard
             key={product.id}

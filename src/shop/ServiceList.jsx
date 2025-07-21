@@ -3,7 +3,7 @@ import ServiceCard from './ServiceCard';
 
 const ServiceList = ({ services, onServiceClick }) => {
   return (
-    <div className="service-list">
+    <div className="services-grid">
       {services.map((service) => (
         <ServiceCard
           key={service.id}
