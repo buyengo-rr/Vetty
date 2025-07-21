@@ -1,5 +1,6 @@
 import React from 'react';
 import ProductList from '../../../src/shop/ProductList';
+import '../styles/components.css'
 
 
 const sampleProducts = [
