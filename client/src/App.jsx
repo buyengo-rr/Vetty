@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
@@ -13,6 +14,7 @@ import UserDashboard from "./components/user/Dashboard";
 import Products from './pages/Products';
 import Services from './pages/Services';
 import './App.css';
+import UserProfile from "./components/user/Profile";
 
 function App() {
   const location = useLocation();
@@ -68,9 +70,11 @@ function App() {
             <Route path="/user/dashboard" element={<UserDashboard />} /> 
             <Route path="/user/products" element={<Products />} />
             <Route path="/user/services" element={<Services />} />
+            <Route path="/user/profile" element={<UserProfile/>}/>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
+         <ToastContainer />
 
         {isPublicPage && <Footer />}
         <ScrollToTop />
