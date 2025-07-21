@@ -1,19 +1,26 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react"; 
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 import "../../styles/components.css";
 
 export default function Sidebar({ role = "user" }) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(window.innerWidth > 768);
+  const location = useLocation();
+
+  // Auto-close on mobile when route changes
+  useEffect(() => {
+    if (window.innerWidth <= 768) setIsOpen(false);
+  }, [location.pathname]);
+
   const toggleSidebar = () => setIsOpen(!isOpen);
 
   const userLinks = [
-    { to: "/dashboard", label: "Dashboard" },
-    { to: "/products", label: "Products" },
-    { to: "/services", label: "Services" },
-    { to: "/cart", label: "Cart" },
-    { to: "/appointment", label: "Appointment" },
-    { to: "/profile", label: "Profile" },
+    { to: "/user/dashboard", label: "Dashboard" },
+    { to: "/user/products", label: "Products" },
+    { to: "/user/services", label: "Services" },
+    { to: "/user/cart", label: "Cart" },
+    { to: "/user/appointment", label: "Appointment" },
+    { to: "/user/profile", label: "Profile" },
   ];
 
   const adminLinks = [
@@ -29,20 +36,27 @@ export default function Sidebar({ role = "user" }) {
 
   return (
     <>
-      <div className="sidebar-toggle" onClick={toggleSidebar}>
+      <button className="sidebar-toggle" onClick={toggleSidebar} aria-label="Toggle Sidebar">
         {isOpen ? <X size={24} /> : <Menu size={24} />}
-      </div>
+      </button>
 
-      <div className={`sidebar ${isOpen ? "open" : "collapsed"}`}>
+      <nav className={`sidebar ${isOpen ? "open" : "collapsed"}`}>
         <h2 className="sidebar-title">{role === "admin" ? "Admin Panel" : "User Panel"}</h2>
         <ul className="sidebar-links">
           {links.map(link => (
             <li key={link.to}>
-              <Link to={link.to}>{link.label}</Link>
+              <Link to={link.to} className={location.pathname === link.to ? "active" : ""}>
+                {link.label}
+              </Link>
             </li>
           ))}
         </ul>
-      </div>
+      </nav>
+
+      {/* Optional overlay on mobile */}
+      {isOpen && window.innerWidth <= 768 && (
+        <div className="sidebar-backdrop" onClick={toggleSidebar}></div>
+      )}
     </>
   );
 }

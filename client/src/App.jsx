@@ -8,7 +8,8 @@ import Header from "./components/common/Header";
 import Sidebar from "./components/common/sidebar"; 
 
 import Home from './pages/Home';
-
+import AdminDashboard from './components/admin/Dashboard'; 
+import UserDashboard from "./components/user/Dashboard";
 import './App.css';
 
 function App() {
@@ -20,18 +21,11 @@ function App() {
   const isPublicPage = publicPaths.includes(location.pathname);
 
   useEffect(() => {
-    // Scroll to top on route change
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    // Page transition effect
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 500);
-
+    const timer = setTimeout(() => setIsLoading(false), 500);
     return () => clearTimeout(timer);
   }, [location]);
 
-  // Preload images
   useEffect(() => {
     const imageUrls = [
       '/hero-pets.jpg',
@@ -40,16 +34,12 @@ function App() {
       '/pet-surgery.jpg',
       '/cta-pets.jpg'
     ];
-
     imageUrls.forEach(url => {
       const img = new Image();
       img.src = url;
     });
 
-    const loadTimer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-
+    const loadTimer = setTimeout(() => setIsLoading(false), 1000);
     return () => clearTimeout(loadTimer);
   }, []);
 
@@ -62,20 +52,22 @@ function App() {
       )}
 
       <div className={`app-container ${isLoading ? 'loading' : ''}`}>
-        {/* Show Sidebar on protected pages, else Header */}
         {isAuthenticated && !isPublicPage ? <Sidebar /> : <Header />}
 
-        <main className="main-content">
+        <main className={`main-content
+          ${isAuthenticated && !isPublicPage ? 'with-sidebar' : ''}
+          ${location.pathname === '/' ? 'home-page' : ''}
+        `}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-        
+            <Route path="/admin/dashboard" element={<AdminDashboard />} /> 
+            <Route path="/user/dashboard" element={<UserDashboard />} /> 
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
 
-        {/* Show footer only on public pages */}
         {isPublicPage && <Footer />}
         <ScrollToTop />
       </div>
@@ -98,28 +90,16 @@ function NotFound() {
 
 function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
-
   useEffect(() => {
-    const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
-
+    const toggleVisibility = () => setIsVisible(window.pageYOffset > 300);
     window.addEventListener('scroll', toggleVisibility);
     return () => window.removeEventListener('scroll', toggleVisibility);
   }, []);
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
     <button
       className={`scroll-to-top ${isVisible ? 'visible' : ''}`}
-      onClick={scrollToTop}
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       aria-label="Scroll to top"
     >
       <svg viewBox="0 0 24 24" fill="none">
