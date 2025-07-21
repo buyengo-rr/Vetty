@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 
+# Local development
+.env
+.env.local
 node_modules/
 .vite/
-
-=======
-node_modules
-echo "node_modules/" >> .gitignore
-git rm -r --cached node_modules/
->>>>>>> 11745f18 (Ignore node_modules folder)
