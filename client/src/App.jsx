@@ -66,8 +66,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} /> 
             <Route path="/user/dashboard" element={<UserDashboard />} /> 
-            <Route path="/products" element={<Products />} />
-            <Route path="/services" element={<Services />} />
+            <Route path="/user/products" element={<Products />} />
+            <Route path="/user/services" element={<Services />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

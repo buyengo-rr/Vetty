@@ -82,11 +82,11 @@ export default function UserDashboard() {
 
       {/* CTA Links */}
       <div className="cta-links">
-        <Link to="/products" className="btn">🛍️ View Products</Link>
-        <Link to="/services" className="btn">📋 Book Services</Link>
-        <Link to="/cart" className="btn">🛒 Go to Cart</Link>
+        <Link to="/user/products" className="btn">🛍️ View Products</Link>
+        <Link to="/user/services" className="btn">📋 Book Services</Link>
+        <Link to="/user/cart" className="btn">🛒 Go to Cart</Link>
         <Link to="/appointments" className="btn">📅 My Appointments</Link>
-        <Link to="/profile" className="btn">👤 Edit Profile</Link>
+        <Link to="/user/profile" className="btn">👤 Edit Profile</Link>
       </div>
 
       {/* Recent Activities */}
