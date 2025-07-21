@@ -1,1 +1,4 @@
-echo -e "node_modules/\ndist/\n.vite/\n.env\n.DS_Store\n*.log" >> .gitignore
+
+node_modules/
+.vite/
+

@@ -1,4 +1,5 @@
-nano .gitignore
+
 node_modules/
 .vite/
+
 
