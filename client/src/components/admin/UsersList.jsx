@@ -17,7 +17,7 @@ function UsersList() {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        // Filter users with role "user"
+
         const userRoleUsers = data.filter(user => user.role === 'user');
         setUsers(userRoleUsers);
         setFilteredUsers(userRoleUsers);
