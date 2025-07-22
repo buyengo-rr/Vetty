@@ -1,120 +1,156 @@
 import React, { useState, useEffect } from 'react';
 
-const AdminProfile = () => {
+const defaultProfileImage = '/default-profile.png'; // Path to default image
+
+function AdminProfile() {
   const [admin, setAdmin] = useState({
     name: '',
     email: '',
-    photo: '',
+    profilePhoto: '',
   });
-
   const [previewPhoto, setPreviewPhoto] = useState(null);
-  const [isSaving, setIsSaving] = useState(false);
-  const [message, setMessage] = useState('');
+  const [photoFile, setPhotoFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(null);
+  const [error, setError] = useState(null);
 
-  // Mock fetch on mount (replace with real API)
   useEffect(() => {
-    // Simulate fetching profile
-    const fetchProfile = async () => {
-      const mockData = {
-        name: 'Admin User',
-        email: 'admin@example.com',
-        photo: '', // add a default photo URL here
-      };
-      setAdmin(mockData);
-    };
-
-    fetchProfile();
+    // Fetch admin profile data from API on mount
+    async function fetchAdminProfile() {
+      try {
+        const response = await fetch('/api/admin/profile');
+        if (!response.ok) {
+          throw new Error('Failed to fetch admin profile');
+        }
+        const data = await response.json();
+        setAdmin({
+          name: data.name || '',
+          email: data.email || '',
+          profilePhoto: data.profilePhoto || '',
+        });
+      } catch (err) {
+        setError('Error loading profile data');
+      }
+    }
+    fetchAdminProfile();
   }, []);
 
   const handleInputChange = (e) => {
-    setAdmin({ ...admin, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setAdmin(prev => ({ ...prev, [name]: value }));
   };
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setAdmin({ ...admin, photo: file });
-      setPreviewPhoto(URL.createObjectURL(file));
+      setPhotoFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewPhoto(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSaving(true);
-    setMessage('');
-
+  const handleSave = async () => {
+    setLoading(true);
+    setMessage(null);
+    setError(null);
     try {
       const formData = new FormData();
       formData.append('name', admin.name);
       formData.append('email', admin.email);
-      if (admin.photo instanceof File) {
-        formData.append('photo', admin.photo);
+      if (photoFile) {
+        formData.append('profilePhoto', photoFile);
       }
 
-      // Replace with real API call
-      console.log('Submitting profile:', Object.fromEntries(formData));
+      const response = await fetch('/api/admin/profile', {
+        method: 'PATCH',
+        body: formData,
+      });
 
-      // Simulate delay
-      await new Promise((res) => setTimeout(res, 1000));
+      if (!response.ok) {
+        throw new Error('Failed to update profile');
+      }
 
-      setMessage('Profile updated successfully!');
-    } catch (error) {
-      setMessage('Failed to update profile.');
+      const data = await response.json();
+      setAdmin({
+        name: data.name || '',
+        email: data.email || '',
+        profilePhoto: data.profilePhoto || '',
+      });
+      setPreviewPhoto(null);
+      setPhotoFile(null);
+      setMessage('Profile updated successfully');
+    } catch (err) {
+      setError(err.message || 'Error updating profile');
     } finally {
-      setIsSaving(false);
+      setLoading(false);
     }
   };
 
   return (
-    <div className="admin-profile">
-      <h2 className="text-2xl font-bold mb-4">Admin Profile</h2>
-      <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
-        <div>
-          <label className="block font-semibold mb-1">Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={admin.name}
-            onChange={handleInputChange}
-            className="w-full border px-3 py-2 rounded"
-          />
-        </div>
+    <div style={{ maxWidth: '400px', margin: '1rem auto', padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
+      <h2>Admin Profile</h2>
+      {error && <div style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>}
+      {message && <div style={{ color: 'green', marginBottom: '1rem' }}>{message}</div>}
 
-        <div>
-          <label className="block font-semibold mb-1">Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={admin.email}
-            onChange={handleInputChange}
-            className="w-full border px-3 py-2 rounded"
-          />
-        </div>
+      <div style={{ marginBottom: '1rem', textAlign: 'center' }}>
+        <img
+          src={previewPhoto || admin.profilePhoto || defaultProfileImage}
+          alt="Profile"
+          style={{ width: '120px', height: '120px', borderRadius: '50%', objectFit: 'cover' }}
+        />
+      </div>
 
-        <div>
-          <label className="block font-semibold mb-1">Profile Photo:</label>
-          <input type="file" accept="image/*" onChange={handlePhotoChange} />
-          {previewPhoto && (
-            <img
-              src={previewPhoto}
-              alt="Preview"
-              className="mt-2 w-32 h-32 object-cover rounded-full"
-            />
-          )}
-        </div>
+      <div style={{ marginBottom: '1rem' }}>
+        <label htmlFor="profilePhoto" style={{ display: 'block', marginBottom: '0.5rem' }}>Profile Photo</label>
+        <input type="file" id="profilePhoto" accept="image/*" onChange={handlePhotoChange} disabled={loading} />
+      </div>
 
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          disabled={isSaving}
-        >
-          {isSaving ? 'Saving...' : 'Save Changes'}
-        </button>
+      <div style={{ marginBottom: '1rem' }}>
+        <label htmlFor="name" style={{ display: 'block', marginBottom: '0.5rem' }}>Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={admin.name}
+          onChange={handleInputChange}
+          disabled={loading}
+          style={{ width: '100%', padding: '0.5rem', fontSize: '1rem' }}
+        />
+      </div>
 
-        {message && <p className="text-green-600 mt-2">{message}</p>}
-      </form>
+      <div style={{ marginBottom: '1rem' }}>
+        <label htmlFor="email" style={{ display: 'block', marginBottom: '0.5rem' }}>Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={admin.email}
+          onChange={handleInputChange}
+          disabled={loading}
+          style={{ width: '100%', padding: '0.5rem', fontSize: '1rem' }}
+        />
+      </div>
+
+      <button
+        onClick={handleSave}
+        disabled={loading}
+        style={{
+          padding: '0.75rem 1.5rem',
+          fontSize: '1rem',
+          backgroundColor: loading ? '#ccc' : '#007bff',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: loading ? 'not-allowed' : 'pointer',
+        }}
+      >
+        {loading ? 'Saving...' : 'Save'}
+      </button>
     </div>
   );
-};
+}
 
 export default AdminProfile;
