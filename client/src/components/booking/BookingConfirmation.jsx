@@ -12,11 +12,11 @@ export default function BookingConfirmation({ service, slot, onConfirm }) {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      toast.success("✅ Booking confirmed!");
+      toast.success(" Booking confirmed!");
       onConfirm?.();
       setConfirmed(true);
     } catch (err) {
-      toast.error("❌ Something went wrong!");
+      toast.error(" Something went wrong!");
     } finally {
       setLoading(false);
     }
@@ -49,7 +49,7 @@ export default function BookingConfirmation({ service, slot, onConfirm }) {
         {loading
           ? "Confirming..."
           : confirmed
-          ? "✅ Confirmed"
+          ? " Confirmed"
           : "Confirm Booking"}
       </button>
     </div>
