@@ -23,6 +23,7 @@ import UserProfile from "./components/user/Profile";
 import AppointmentPage from "./components/booking/AppointmentPage";
 import Cart from "./components/cart/Cart";
 import CheckoutPage from "./components/cart/Checkout";
+import OrderManagement from "./components/admin/OrderManagement";
 
 function App() {
   const location = useLocation();
@@ -82,6 +83,7 @@ function App() {
             <Route path="/user/Appointment" element={<AppointmentPage />} />
             <Route path="/user/cart" element={<Cart/>}/>
             <Route path="/checkout" element={<CheckoutPage/>}/>
+            <Route path="/admin/order" element={<OrderManagement/>}/>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
