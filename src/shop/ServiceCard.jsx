@@ -1,13 +1,20 @@
-import React from 'react';
+import { useNavigate } from "react-router-dom";
 
-const ServiceCard = ({ service, onClick }) => {
+const ServiceCard = ({ service }) => {
+  const navigate = useNavigate();
+
+  const handleBookNow = () => {
+    navigate("/user/appointment", { state: { selectedService: service } });
+  };
+
   return (
-    <div className="service-card" onClick={() => onClick && onClick(service)}>
-      <h3 className="service-name">{service.name}</h3>
-      <p className="service-description">{service.description}</p>
-      <p className="service-price">${service.price.toFixed(2)}</p>
+    <div className="service-card">
+      <h3>{service.name}</h3>
+      <p>{service.description}</p>
+      <p>${service.price}</p>
+      <button onClick={handleBookNow} className="book-btn">Book Now</button>
     </div>
   );
 };
 
-export default ServiceCard;
+export default ServiceCard
