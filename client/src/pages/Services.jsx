@@ -1,5 +1,5 @@
 import React from 'react';
-import ServiceList from '../../../src/shop/ServiceList';
+import ServiceList from '../shop/ServiceList';
 
 const sampleServices = [
   { id: 1, name: 'Pet Grooming', description: 'Full grooming service', price: 50 },
