@@ -9,7 +9,7 @@ export default function BookingConfirmation({ service, slot, onConfirm }) {
     setLoading(true);
 
     try {
-      // Simulate API call
+      
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       toast.success(" Booking confirmed!");

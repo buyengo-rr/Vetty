@@ -65,7 +65,7 @@ export default function Login() {
     localStorage.setItem("token", "dummy-token");
     localStorage.setItem("role", "user"); // Or "admin"
 
-    setMessage("✅ Logged in successfully!");
+    setMessage(" Logged in successfully!");
 
     // Redirect after a short delay
     setTimeout(() => {
