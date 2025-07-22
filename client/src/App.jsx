@@ -7,9 +7,9 @@ import Login from "./components/auth/Login";
 import Footer from './components/common/Footer';
 import Header from "./components/common/Header";
 import Sidebar from "./components/common/sidebar"; 
-import ServiceBooking from "./components/booking/ServiceBooking";
-import AppointmentSchedule from "./components/booking/AppointmentSchedule";
-import BookingConfirmation from "./components/booking/BookingConfirmation";
+// import ServiceBooking from "./components/booking/ServiceBooking";
+// import AppointmentSchedule from "./components/booking/AppointmentSchedule";
+// import BookingConfirmation from "./components/booking/BookingConfirmation";
 
 
 
@@ -70,7 +70,7 @@ function App() {
       )}
 
       <div className={`app-container ${isLoading ? 'loading' : ''}`}>
-        {isAuthenticated && !isPublicPage ? <Sidebar role="admin" /> : <Header />}
+        {isAuthenticated && !isPublicPage ? <Sidebar role="admin ? user" /> : <Header />}
 
         <main className={`main-content
           ${isAuthenticated && !isPublicPage ? 'with-sidebar' : ''}
