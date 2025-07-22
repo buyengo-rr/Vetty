@@ -20,8 +20,9 @@ import Products from './pages/Products';
 import Services from './pages/Services';
 import './App.css';
 import UserProfile from "./components/user/Profile";
-import UsersList from "./components/admin/UsersList";
-import AdminProfile from "./components/admin/AdminProfile";
+// import UsersList from "./components/admin/UsersList";
+// import AdminProfile from "./components/admin/AdminProfile";
+import OrderManagement from "./components/admin/OrderManagement";
 
 function App() {
   const location = useLocation();
@@ -74,6 +75,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} /> 
+             <Route path="/admin/Order" element={<OrderManagement />} /> 
             <Route path="/user/dashboard" element={<UserDashboard />} /> 
             <Route path="/user/products" element={<Products />} />
             <Route path="/user/services" element={<Services />} />
