@@ -17,6 +17,7 @@ import Services from './pages/Services';
 import './App.css';
 import UserProfile from "./components/user/Profile";
 import About from './pages/About';
+import Contact from './pages/Contact';
 
 function App() {
   const location = useLocation();
@@ -75,6 +76,7 @@ function App() {
             <Route path="/user/services" element={<Services />} />
             <Route path="/user/profile" element={<UserProfile/>}/>
             <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
