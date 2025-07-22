@@ -20,6 +20,8 @@ import Products from './pages/Products';
 import Services from './pages/Services';
 import './App.css';
 import UserProfile from "./components/user/Profile";
+import UsersList from "./components/admin/UsersList";
+import AdminProfile from "./components/admin/AdminProfile";
 
 function App() {
   const location = useLocation();

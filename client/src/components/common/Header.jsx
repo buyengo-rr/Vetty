@@ -24,7 +24,7 @@ function Header() {
         
         <div className={isOpen ? "nav-links open" : "nav-links"}>
           <Link to="/" onClick={() => setIsOpen(false)}>
-            Home
+            HOME
           </Link>
           <Link to="/about" onClick={() => setIsOpen(false)}>
             ABOUT
