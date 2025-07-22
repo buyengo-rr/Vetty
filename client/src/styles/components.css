@@ -1424,3 +1424,91 @@ main {
   color: white;
   border-color: #2563eb;
 }
+/* General Grid Layout for ServiceList */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+/* Individual Service Card */
+.service-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+  border: 1px solid #f0f0f0;
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.service-name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.service-description {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 0.75rem;
+}
+
+.service-price {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #0077ff;
+}
+
+/* Service Detail View */
+.service-detail {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.service-detail h2 {
+  font-size: 2rem;
+  color: #222;
+  margin-bottom: 1rem;
+}
+
+.service-detail p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #444;
+}
+
+.service-detail .service-price {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #0095ff;
+}
+
+.book-btn {
+  background-color: #0077ff;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.book-btn:hover {
+  background-color: #005fd1;
+  transform: translateY(-2px);
+}

@@ -1,0 +1,144 @@
+.cart-page {
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.cart-container {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+.cart-table th,
+.cart-table td {
+    padding: 0.75rem;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-product {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cart-product img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.quantity-controls button {
+    padding: 4px 8px;
+    font-size: 16px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.remove-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.checkout-btn {
+    background-color: #28a745;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: white;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+
+.checkout-container {
+    max-width: 600px;
+    margin: 4rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.07);
+    border-radius: 12px;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.checkout-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    color: #333;
+}
+
+.checkout-form .form-group {
+    margin-bottom: 1.2rem;
+}
+
+.checkout-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+.checkout-form input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border 0.3s;
+}
+
+.checkout-form input:focus {
+    border-color: #0077ff;
+    outline: none;
+}
+
+.checkout-total {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: right;
+    margin-top: 1rem;
+    color: #0077ff;
+}
+
+.checkout-form button {
+    width: 100%;
+    padding: 0.9rem;
+    background-color: #0077ff;
+    color: #fff;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    transition: background-color 0.3s;
+}
+
+.checkout-form button:hover {
+    background-color: #005ecb;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .checkout-container {
+        padding: 1.5rem 1rem;
+        margin: 2rem 1rem;
+    }
+
+    .checkout-form button {
+        font-size: 1rem;
+    }
+}
