@@ -15,6 +15,7 @@ import Products from './pages/Products';
 import Services from './pages/Services';
 import './App.css';
 import UserProfile from "./components/user/Profile";
+import AdminProducts from "./components/admin/ProductManagement";
 
 function App() {
   const location = useLocation();
@@ -71,6 +72,7 @@ function App() {
             <Route path="/user/products" element={<Products />} />
             <Route path="/user/services" element={<Services />} />
             <Route path="/user/profile" element={<UserProfile/>}/>
+            <Route path="/admin/product" element={<AdminProducts/>}/>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

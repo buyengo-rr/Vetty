@@ -105,3 +105,281 @@ input[type="file"] {
 .btn-logout:hover {
     background-color: #b02a37;
 }
+
+
+/* Products Page */
+
+
+.admin-products-page {
+    padding: 2rem;
+    font-family: "Segoe UI", sans-serif;
+    background: #f9fafe;
+    min-height: 100vh;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.admin-header h2 {
+    font-size: 1.8rem;
+    color: #333;
+}
+
+.add-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #0077cc;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.add-btn:hover {
+    background: #005fa3;
+}
+
+/* Product Cards */
+.product-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.product-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.card-info {
+    padding: 1rem;
+}
+
+.card-info h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #222;
+}
+
+.card-info p {
+    margin: 0.2rem 0;
+    color: #555;
+}
+
+.card-actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-actions button {
+    flex: 1;
+    margin-right: 6px;
+    padding: 0.4rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background 0.3s;
+}
+
+.card-actions button:last-child {
+    margin-right: 0;
+}
+
+.card-actions button:nth-child(1) {
+    background: #f0ad4e;
+    color: white;
+}
+
+.card-actions button:nth-child(1):hover {
+    background: #d99b3e;
+}
+
+.card-actions button:nth-child(2) {
+    background: #d9534f;
+    color: white;
+}
+
+.card-actions button:nth-child(2):hover {
+    background: #c9302c;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Modal Box */
+.modal {
+    background: white;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 10px;
+    padding: 1.5rem;
+    position: relative;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #888;
+}
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-form label {
+    margin: 0.5rem 0 0.2rem;
+    font-weight: 600;
+    color: #444;
+}
+
+.modal-form input,
+.modal-form select {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.modal-form input:focus,
+.modal-form select:focus {
+    outline: none;
+    border-color: #0077cc;
+}
+
+.image-preview {
+    margin-top: 0.5rem;
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+.save-btn {
+    margin-top: 1rem;
+    background: #28a745;
+    color: white;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.save-btn:hover {
+    background: #218838;
+}
+
+
+/* Confirm Delete Modal Styles */
+
+.confirm-modal {
+    text-align: center;
+    padding: 2rem;
+}
+
+.confirm-modal .warning-icon {
+    font-size: 2.5rem;
+    color: #ffc107;
+    margin-bottom: 1rem;
+}
+
+.confirm-modal h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: #d9534f;
+}
+
+.confirm-modal p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    color: #555;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.cancel-btn,
+.delete-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+.cancel-btn {
+    background: #6c757d;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background: #5a6268;
+}
+
+.delete-btn {
+    background: #dc3545;
+    color: white;
+}
+
+.delete-btn:hover {
+    background: #c82333;
+}
