@@ -15,20 +15,13 @@ import BookingConfirmation from "./components/booking/BookingConfirmation";
 
 import Home from './pages/Home';
 import AdminDashboard from './components/admin/Dashboard'; 
-import UsersList from './components/admin/UsersList';
 import UserDashboard from "./components/user/Dashboard";
 import Products from './pages/Products';
 import Services from './pages/Services';
 import './App.css';
 import UserProfile from "./components/user/Profile";
-
-// import UsersList from "./components/admin/UsersList";
+import UsersList from "./components/admin/UsersList";
 import AdminProfile from "./components/admin/AdminProfile";
-import Cart from "./components/cart/Cart";
-import CheckoutPage from "./components/cart/Checkout";
-import BookAppointmentPage from "./components/booking/AppointmentPage";
-import AdminProducts from "./components/admin/ProductManagement";
-
 
 function App() {
   const location = useLocation();
@@ -70,7 +63,7 @@ function App() {
       )}
 
       <div className={`app-container ${isLoading ? 'loading' : ''}`}>
-        {isAuthenticated && !isPublicPage ? <Sidebar role="admin" /> : <Header />}
+        {isAuthenticated && !isPublicPage ? <Sidebar /> : <Header />}
 
         <main className={`main-content
           ${isAuthenticated && !isPublicPage ? 'with-sidebar' : ''}
@@ -81,20 +74,13 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} /> 
-            <Route path="/admin/users" element={<UsersList />} />
             <Route path="/user/dashboard" element={<UserDashboard />} /> 
             <Route path="/user/products" element={<Products />} />
             <Route path="/user/services" element={<Services />} />
             <Route path="/user/profile" element={<UserProfile/>}/>
-            <Route path='/admin/products' element={<AdminProducts/>}/>
-            <Route path="/user/Appointment" element={<BookAppointmentPage />} />
-           
-
-            {/* <Route path="/admin/users" element={<UsersList />} /> */}
-            <Route path="/admin/profile" element={<AdminProfile />} />
-            <Route path="/user/cart" element={<Cart/>}/>
-            <Route path="/user/checkout" element={<CheckoutPage/>}/>
-
+            <Route path="/user/Appointment" element={<AppointmentSchedule />} />
+            <Route path="/user/Booking" element={<BookingConfirmation />} />
+            <Route path="/user/Service" element={<ServiceBooking />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
