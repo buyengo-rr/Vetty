@@ -15,6 +15,7 @@ import BookingConfirmation from "./components/booking/BookingConfirmation";
 
 import Home from './pages/Home';
 import AdminDashboard from './components/admin/Dashboard'; 
+import UsersList from './components/admin/UsersList';
 import UserDashboard from "./components/user/Dashboard";
 import Products from './pages/Products';
 import Services from './pages/Services';
@@ -65,7 +66,7 @@ function App() {
       )}
 
       <div className={`app-container ${isLoading ? 'loading' : ''}`}>
-        {isAuthenticated && !isPublicPage ? <Sidebar /> : <Header />}
+        {isAuthenticated && !isPublicPage ? <Sidebar role="admin" /> : <Header />}
 
         <main className={`main-content
           ${isAuthenticated && !isPublicPage ? 'with-sidebar' : ''}
@@ -76,6 +77,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} /> 
+            <Route path="/admin/users" element={<UsersList />} />
             <Route path="/user/dashboard" element={<UserDashboard />} /> 
             <Route path="/user/products" element={<Products />} />
             <Route path="/user/services" element={<Services />} />
