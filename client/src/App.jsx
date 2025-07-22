@@ -16,6 +16,7 @@ import Services from './pages/Services';
 import './App.css';
 import UserProfile from "./components/user/Profile";
 import AdminProducts from "./components/admin/ProductManagement";
+import UsersList from "./components/admin/UsersList";
 
 function App() {
   const location = useLocation();
@@ -73,6 +74,7 @@ function App() {
             <Route path="/user/services" element={<Services />} />
             <Route path="/user/profile" element={<UserProfile/>}/>
             <Route path="/admin/product" element={<AdminProducts/>}/>
+             <Route path="/admin/users" element={<UsersList/>}/>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
