@@ -7,6 +7,11 @@ import Login from "./components/auth/Login";
 import Footer from './components/common/Footer';
 import Header from "./components/common/Header";
 import Sidebar from "./components/common/sidebar"; 
+import ServiceBooking from "./components/booking/ServiceBooking";
+import AppointmentSchedule from "./components/booking/AppointmentSchedule";
+import BookingConfirmation from "./components/booking/BookingConfirmation";
+
+
 
 import Home from './pages/Home';
 import AdminDashboard from './components/admin/Dashboard'; 
@@ -75,6 +80,10 @@ function App() {
             <Route path="/user/products" element={<Products />} />
             <Route path="/user/services" element={<Services />} />
             <Route path="/user/profile" element={<UserProfile/>}/>
+
+            <Route path="/user/Appointment" element={<AppointmentSchedule />} />
+            <Route path="/user/Booking" element={<BookingConfirmation />} />
+            <Route path="/user/Service" element={<ServiceBooking />} />
 
             <Route path="/admin/users" element={<UsersList />} />
             <Route path="/admin/profile" element={<AdminProfile />} />
