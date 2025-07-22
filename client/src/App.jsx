@@ -24,6 +24,10 @@ import UserProfile from "./components/user/Profile";
 
 // import UsersList from "./components/admin/UsersList";
 import AdminProfile from "./components/admin/AdminProfile";
+import Cart from "./components/cart/Cart";
+import CheckoutPage from "./components/cart/Checkout";
+import BookAppointmentPage from "./components/booking/AppointmentPage";
+import AdminProducts from "./components/admin/ProductManagement";
 
 
 function App() {
@@ -82,13 +86,14 @@ function App() {
             <Route path="/user/products" element={<Products />} />
             <Route path="/user/services" element={<Services />} />
             <Route path="/user/profile" element={<UserProfile/>}/>
-
-            <Route path="/user/Appointment" element={<AppointmentSchedule />} />
-            <Route path="/user/Booking" element={<BookingConfirmation />} />
-            <Route path="/user/Service" element={<ServiceBooking />} />
+            <Route path='/admin/products' element={<AdminProducts/>}/>
+            <Route path="/user/Appointment" element={<BookAppointmentPage />} />
+           
 
             {/* <Route path="/admin/users" element={<UsersList />} /> */}
             <Route path="/admin/profile" element={<AdminProfile />} />
+            <Route path="/user/cart" element={<Cart/>}/>
+            <Route path="/user/checkout" element={<CheckoutPage/>}/>
 
             <Route path="*" element={<NotFound />} />
           </Routes>

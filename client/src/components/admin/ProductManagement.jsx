@@ -1,4 +1,3 @@
-// src/components/admin/AdminProducts.jsx
 import React, { useState } from "react";
 import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 import ProductFormModal from "./formmodal";
