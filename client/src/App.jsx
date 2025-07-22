@@ -21,7 +21,7 @@ import Services from './pages/Services';
 import './App.css';
 import UserProfile from "./components/user/Profile";
 
-import UsersList from "./components/admin/UsersList";
+// import UsersList from "./components/admin/UsersList";
 import AdminProfile from "./components/admin/AdminProfile";
 
 
@@ -85,7 +85,7 @@ function App() {
             <Route path="/user/Booking" element={<BookingConfirmation />} />
             <Route path="/user/Service" element={<ServiceBooking />} />
 
-            <Route path="/admin/users" element={<UsersList />} />
+            {/* <Route path="/admin/users" element={<UsersList />} /> */}
             <Route path="/admin/profile" element={<AdminProfile />} />
 
             <Route path="*" element={<NotFound />} />
