@@ -49,7 +49,7 @@ const Cart = () => {
 
           <div className="cart-summary">
             <h3>Total: KES {total.toFixed(2)}</h3>
-            <Link to="/user/checkout" className="checkout-btn">Proceed to Checkout</Link>
+            <Link to="/checkout" className="checkout-btn">Proceed to Checkout</Link>
           </div>
         </div>
       )}

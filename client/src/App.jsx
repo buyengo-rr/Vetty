@@ -7,9 +7,7 @@ import Login from "./components/auth/Login";
 import Footer from './components/common/Footer';
 import Header from "./components/common/Header";
 import Sidebar from "./components/common/sidebar"; 
-// import ServiceBooking from "./components/booking/ServiceBooking";
-// import AppointmentSchedule from "./components/booking/AppointmentSchedule";
-// import BookingConfirmation from "./components/booking/BookingConfirmation";
+
 
 
 
@@ -20,8 +18,11 @@ import Products from './pages/Products';
 import Services from './pages/Services';
 import './App.css';
 import UserProfile from "./components/user/Profile";
-import UsersList from "./components/admin/UsersList";
-import AdminProfile from "./components/admin/AdminProfile";
+// import UsersList from "./components/admin/UsersList";
+// import AdminProfile from "./components/admin/AdminProfile";
+import AppointmentPage from "./components/booking/AppointmentPage";
+import Cart from "./components/cart/Cart";
+import CheckoutPage from "./components/cart/Checkout";
 
 function App() {
   const location = useLocation();
@@ -78,9 +79,9 @@ function App() {
             <Route path="/user/products" element={<Products />} />
             <Route path="/user/services" element={<Services />} />
             <Route path="/user/profile" element={<UserProfile/>}/>
-            <Route path="/user/Appointment" element={<AppointmentSchedule />} />
-            <Route path="/user/Booking" element={<BookingConfirmation />} />
-            <Route path="/user/Service" element={<ServiceBooking />} />
+            <Route path="/user/Appointment" element={<AppointmentPage />} />
+            <Route path="/user/cart" element={<Cart/>}/>
+            <Route path="/checkout" element={<CheckoutPage/>}/>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
