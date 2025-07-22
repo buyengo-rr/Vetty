@@ -54,6 +54,7 @@ export default function Sidebar({ role = "user" }) {
     { to: "/admin/appointments", label: "Appointments", icon: <FaCalendarAlt /> },
     { to: "/admin/orders", label: "Orders", icon: <FaShoppingCart /> },
     { to: "/admin/users", label: "Users", icon: <FaUsers /> },
+    { to: "/admin/profile", label: "Profile", icon: <FaUserCircle /> },
   ];
 
   const links = role === "admin" ? adminLinks : userLinks;
