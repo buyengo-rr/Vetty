@@ -10,6 +10,8 @@ import {
   FaUsers,
   FaUserCircle,
   FaSignOutAlt,
+  FaInfoCircle,
+  FaEnvelope,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -45,6 +47,8 @@ export default function Sidebar({ role = "user" }) {
     { to: "/user/cart", label: "Cart", icon: <FaShoppingCart /> },
     { to: "/user/appointment", label: "Appointment", icon: <FaCalendarAlt /> },
     { to: "/user/profile", label: "Profile", icon: <FaUserCircle /> },
+    { to: "/about", label: "About", icon: <FaInfoCircle /> },
+    { to: "/contact", label: "Contact", icon: <FaEnvelope /> },
   ];
 
   const adminLinks = [
@@ -55,6 +59,8 @@ export default function Sidebar({ role = "user" }) {
     { to: "/admin/orders", label: "Orders", icon: <FaShoppingCart /> },
     { to: "/admin/users", label: "Users", icon: <FaUsers /> },
     { to: "/admin/profile", label: "Profile", icon: <FaUserCircle /> },
+    { to: "/about", label: "About", icon: <FaInfoCircle /> },
+    { to: "/contact", label: "Contact", icon: <FaEnvelope /> },
   ];
 
   const links = role === "admin" ? adminLinks : userLinks;
