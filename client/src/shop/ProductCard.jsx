@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCart } from '../../client/src/components/Context/CartContext'; 
+import { useCart } from '../components/Context/CartContext'; 
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();

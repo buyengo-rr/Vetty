@@ -8,9 +8,6 @@ import Footer from './components/common/Footer';
 import Header from "./components/common/Header";
 import Sidebar from "./components/common/sidebar"; 
 
-
-
-
 import Home from './pages/Home';
 import AdminDashboard from './components/admin/Dashboard'; 
 import UserDashboard from "./components/user/Dashboard";
@@ -18,11 +15,15 @@ import Products from './pages/Products';
 import Services from './pages/Services';
 import './App.css';
 import UserProfile from "./components/user/Profile";
-// import UsersList from "./components/admin/UsersList";
-// import AdminProfile from "./components/admin/AdminProfile";
+import UsersList from "./components/admin/UsersList";
+import AdminProfile from "./components/admin/AdminProfile";
+import AdminProducts from "./components/admin/ProductManagement";
 import AppointmentPage from "./components/booking/AppointmentPage";
 import Cart from "./components/cart/Cart";
 import CheckoutPage from "./components/cart/Checkout";
+
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 import OrderManagement from "./components/admin/OrderManagement";
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
 
       <div className={`app-container ${isLoading ? 'loading' : ''}`}>
         {isAuthenticated && !isPublicPage ? <Sidebar /> : <Header />}
+        {isAuthenticated && !isPublicPage ? <Sidebar /> : <Header />}
 
         <main className={`main-content
           ${isAuthenticated && !isPublicPage ? 'with-sidebar' : ''}
@@ -73,6 +75,8 @@ function App() {
         `}>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About/>}/>
+            <Route path="/contact" element={<Contact/>}/>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} /> 
@@ -82,6 +86,12 @@ function App() {
             <Route path="/user/profile" element={<UserProfile/>}/>
             <Route path="/user/Appointment" element={<AppointmentPage />} />
             <Route path="/admin/orders" element={<OrderManagement />} />
+            <Route path="/admin/users" element={<UsersList />} />
+            <Route path="/admin/products" element={<AdminProducts/>}/>
+            <Route path="/admin/profile" element={<AdminProfile />} />
+            <Route path="/admin/product" element={<AdminProducts/>}/>
+            <Route path="/admin/orders" element={<OrderManagement/>}/>
+            <Route path="/user/appointment" element={<AppointmentPage/>}/>
             <Route path="/user/cart" element={<Cart/>}/>
             <Route path="/checkout" element={<CheckoutPage/>}/>
             <Route path="*" element={<NotFound />} />
