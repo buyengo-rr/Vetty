@@ -85,7 +85,7 @@ export default function UserDashboard() {
         <Link to="/user/products" className="btn">🛍️ View Products</Link>
         <Link to="/user/services" className="btn">📋 Book Services</Link>
         <Link to="/user/cart" className="btn">🛒 Go to Cart</Link>
-        <Link to="/appointments" className="btn">📅 My Appointments</Link>
+        <Link to="/user/appointment" className="btn">📅 My Appointments</Link>
         <Link to="/user/profile" className="btn">👤 Edit Profile</Link>
       </div>
 

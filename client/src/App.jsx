@@ -18,6 +18,12 @@ import UserProfile from "./components/user/Profile";
 import UsersList from "./components/admin/UsersList";
 import AdminProfile from "./components/admin/AdminProfile";
 import AdminProducts from "./components/admin/ProductManagement";
+import AppointmentPage from "./components/booking/AppointmentPage";
+import Cart from "./components/cart/Cart";
+import CheckoutPage from "./components/cart/Checkout";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import OrderManagement from "./components/admin/OrderManagement";
 
 function App() {
   const location = useLocation();
@@ -68,6 +74,8 @@ function App() {
         `}>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About/>}/>
+            <Route path="/contact" element={<Contact/>}/>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} /> 
@@ -79,6 +87,10 @@ function App() {
             <Route path="/admin/products" element={<AdminProducts/>}/>
             <Route path="/admin/profile" element={<AdminProfile />} />
             <Route path="/admin/product" element={<AdminProducts/>}/>
+            <Route path="/admin/orders" element={<OrderManagement/>}/>
+            <Route path="/user/appointment" element={<AppointmentPage/>}/>
+            <Route path="/user/cart" element={<Cart/>}/>
+            <Route path="/checkout" element={<CheckoutPage/>}/>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
