@@ -21,6 +21,7 @@ import AdminProducts from "./components/admin/ProductManagement";
 import AppointmentPage from "./components/booking/AppointmentPage";
 import Cart from "./components/cart/Cart";
 import CheckoutPage from "./components/cart/Checkout";
+
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import OrderManagement from "./components/admin/OrderManagement";
@@ -83,6 +84,8 @@ function App() {
             <Route path="/user/products" element={<Products />} />
             <Route path="/user/services" element={<Services />} />
             <Route path="/user/profile" element={<UserProfile/>}/>
+            <Route path="/user/Appointment" element={<AppointmentPage />} />
+            <Route path="/admin/orders" element={<OrderManagement />} />
             <Route path="/admin/users" element={<UsersList />} />
             <Route path="/admin/products" element={<AdminProducts/>}/>
             <Route path="/admin/profile" element={<AdminProfile />} />
