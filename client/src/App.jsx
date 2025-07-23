@@ -13,7 +13,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Products from './pages/Products';
 import Services from './pages/Services';
-import AdminDashboard from './components/admin/Dashboard';
+import AdminDashboard from "./components/admin/Dashboard";
 import UserDashboard from "./components/user/Dashboard";
 import UserProfile from "./components/user/Profile";
 import AppointmentPage from "./components/booking/AppointmentPage";
@@ -30,10 +30,8 @@ import './App.css';
 function App() {
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
-
   const isAuthenticated = !!localStorage.getItem("token");
 
-  // ✅ Fix: exact match for public routes
   const publicPaths = ["/", "/login", "/register", "/about", "/contact"];
   const isPublicPage = publicPaths.includes(location.pathname);
 
@@ -55,9 +53,6 @@ function App() {
       const img = new Image();
       img.src = url;
     });
-
-    const loadTimer = setTimeout(() => setIsLoading(false), 1000);
-    return () => clearTimeout(loadTimer);
   }, []);
 
   return (
@@ -69,28 +64,27 @@ function App() {
       )}
 
       <div className={`app-container ${isLoading ? 'loading' : ''}`}>
-
-        {/* ✅ Show Header on public pages only */}
+        {/* Show Header only on public pages */}
         {isPublicPage && <Header />}
 
-        {/* ✅ Show Sidebar on authenticated private pages */}
+        {/* Show Sidebar on private authenticated pages */}
         {!isPublicPage && isAuthenticated && <Sidebar />}
 
         <main
-          className={`main-content
-            ${isAuthenticated && !isPublicPage ? 'with-sidebar' : ''}
+          className={`main-content 
+            ${isAuthenticated && !isPublicPage ? 'with-sidebar' : 'no-sidebar'} 
             ${location.pathname === '/' ? 'home-page' : ''}
           `}
         >
           <Routes>
-            {/* Public Routes */}
+            {/* Public */}
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
 
-            {/* User Routes */}
+            {/* User */}
             <Route path="/user/dashboard" element={<UserDashboard />} />
             <Route path="/user/products" element={<Products />} />
             <Route path="/user/services" element={<Services />} />
@@ -98,7 +92,7 @@ function App() {
             <Route path="/user/appointment" element={<AppointmentPage />} />
             <Route path="/user/cart" element={<Cart />} />
 
-            {/* Admin Routes */}
+            {/* Admin */}
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/users" element={<UsersList />} />
             <Route path="/admin/products" element={<AdminProducts />} />
@@ -106,13 +100,12 @@ function App() {
             <Route path="/admin/orders" element={<OrderManagement />} />
             <Route path="/admin/services" element={<AdminServicePage />} />
 
-            {/* Shared Routes */}
+            {/* Shared */}
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
 
-        {/* ✅ Toast + Footer only on public pages */}
         <ToastContainer />
         {isPublicPage && <Footer />}
         <ScrollToTop />
@@ -121,7 +114,7 @@ function App() {
   );
 }
 
-// Not Found Page
+// Not Found
 function NotFound() {
   return (
     <div className="not-found">
@@ -135,7 +128,7 @@ function NotFound() {
   );
 }
 
-// Scroll To Top Button
+// Scroll To Top
 function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
