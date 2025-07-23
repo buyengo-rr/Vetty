@@ -33,8 +33,9 @@ function App() {
 
   const isAuthenticated = !!localStorage.getItem("token");
 
+  // ✅ Fix: exact match for public routes
   const publicPaths = ["/", "/login", "/register", "/about", "/contact"];
-  const isPublicPage = publicPaths.some(path => location.pathname.startsWith(path));
+  const isPublicPage = publicPaths.includes(location.pathname);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -69,16 +70,18 @@ function App() {
 
       <div className={`app-container ${isLoading ? 'loading' : ''}`}>
 
-        {/* Show Header on public pages */}
+        {/* ✅ Show Header on public pages only */}
         {isPublicPage && <Header />}
 
-        {/* Show Sidebar on authenticated private pages */}
+        {/* ✅ Show Sidebar on authenticated private pages */}
         {!isPublicPage && isAuthenticated && <Sidebar />}
 
-        <main className={`main-content
-          ${isAuthenticated && !isPublicPage ? 'with-sidebar' : ''}
-          ${location.pathname === '/' ? 'home-page' : ''}
-        `}>
+        <main
+          className={`main-content
+            ${isAuthenticated && !isPublicPage ? 'with-sidebar' : ''}
+            ${location.pathname === '/' ? 'home-page' : ''}
+          `}
+        >
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
@@ -109,9 +112,8 @@ function App() {
           </Routes>
         </main>
 
+        {/* ✅ Toast + Footer only on public pages */}
         <ToastContainer />
-
-        {/* Footer only on public pages */}
         {isPublicPage && <Footer />}
         <ScrollToTop />
       </div>
