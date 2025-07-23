@@ -1,23 +1,33 @@
-import React from 'react';
+import React from "react";
+import { Link } from "react-router-dom";
 
-const About = () => {
+export default function About() {
   return (
-    <div className="about-page" style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-      <h1>About Vetty</h1>
-      <p>
-        At <strong> Vetty</strong>, we understand that pets are more than just animals ;they are family. That’s why we’ve built a data-driven e-commerce platform designed to make pet care simple, reliable, and fast.
-      </p>
-      <p className="text-lg mb-4">
-        Whether it’s midnight cravings for your cat, last-minute vet appointments, or a restock on vaccines and grooming essentials, Vetty connects you with trusted veterinary services and pet products right when you need them.
-      </p>
-      <p className="text-lg">
-        Our mission is to bring pet wellness to your fingertips by combining smart inventory management, real-time service approvals, and a seamless ordering experience — all managed securely by an admin you can trust.
-      </p>
-      <p>
-        From pet food and toys to vaccinations and grooming, Vetty ensures your pet’s needs are never out of reach.
-      </p>
+    <div className="about-container">
+      <main>
+        {/* Base structure will be built upon */}
+      </main>
     </div>
   );
-};
-
-export default About;
+}
+{/* Hero Section */}
+<section className="about-hero-section">
+  <div className="about-hero-background">
+    <div className="about-hero-overlay"></div>
+    <div className="floating-elements"></div>
+  </div>
+  <div className="about-hero-content">
+    <div className="about-badge">
+      <span>🏆 Award-Winning Veterinary Care</span>
+    </div>
+    <h1 className="about-hero-title">
+      Our Story of 
+      <span className="gradient-text">Compassionate Care</span>
+    </h1>
+    <p className="about-hero-subtitle">
+      For over 15 years, Vetty has been dedicated to providing exceptional veterinary care 
+      with a personal touch. Founded by passionate animal lovers, we've grown into a 
+      trusted community of pet care professionals.
+    </p>
+  </div>
+</section>
