@@ -31,3 +31,38 @@ export default function About() {
     </p>
   </div>
 </section>
+{/* Mission Section */}
+<section className="mission-section">
+  <div className="section-container">
+    <div className="mission-grid">
+      <div className="mission-content">
+        <div className="mission-icon">🎯</div>
+        <h2 className="mission-title">Our Mission</h2>
+        <p className="mission-text">
+          To provide exceptional veterinary care that strengthens the bond between pets and their families. 
+          We believe every animal deserves compassionate, professional treatment that enhances their quality of life.
+        </p>
+        <div className="mission-highlights">
+          <div className="highlight-item">
+            <div className="highlight-icon">💝</div>
+            <span>Compassionate Care</span>
+          </div>
+          <div className="highlight-item">
+            <div className="highlight-icon">🔬</div>
+            <span>Advanced Technology</span>
+          </div>
+          <div className="highlight-item">
+            <div className="highlight-icon">👨‍👩‍👧‍👦</div>
+            <span>Family-Centered Approach</span>
+          </div>
+        </div>
+      </div>
+      <div className="mission-image">
+        <div className="image-placeholder mission-img">
+          <div className="image-overlay"></div>
+          <div className="image-content">🏥 Modern Facility</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
