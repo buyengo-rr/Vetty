@@ -111,10 +111,16 @@ input[type="file"] {
     padding: 3rem 2rem;
     max-width: 900px;
     margin: 0 auto;
-    background: linear-gradient(135deg, #e0f0ff, #a0c8ff);
+    /* background: linear-gradient(135deg, #e0f0ff, #a0c8ff); */
     border-radius: 12px;
     color: #003366;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.about-page ul {
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
 }
 
 .about-page h1 {
@@ -135,13 +141,22 @@ input[type="file"] {
 /* New styles for Contact page */
 
 .contact-page {
-    max-width: 700px;
+    max-width: 900px;
     margin: 2rem auto;
-    padding: 1rem;
+    padding: 2rem;
     background: linear-gradient(135deg, #cce4ff, #99bbff);
     border-radius: 12px;
     color: #003366;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.footer-about-wrapper .footer {
+    background-color: #f5f5f5 !important;
+    padding: 2rem !important;
+    max-width: 400px !important;
+    margin: 2rem auto !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
 }
 
 .contact-info {
