@@ -80,3 +80,45 @@ export default function About() {
     </div>
   </div>
 </section>
+{/* Individual team member cards */}
+<div className="team-card lead-vet">
+  <div className="team-image">
+    <div className="team-avatar">👩‍⚕</div>
+    <div className="team-overlay"></div>
+    <div className="team-badge">Lead Veterinarian</div>
+  </div>
+  <div className="team-info">
+    <h3>Dr. Sarah Mitchell</h3>
+    <p className="team-role">DVM, Chief Veterinarian</p>
+    <p className="team-description">
+      15+ years of experience in small animal medicine with specialization in emergency care and surgery.
+    </p>
+    <div className="team-specialties">
+      <span className="specialty">Emergency Care</span>
+      <span className="specialty">Surgery</span>
+      <span className="specialty">Internal Medicine</span>
+    </div>
+  </div>
+</div>
+{/* Values Section */}
+<section className="values-section">
+  <div className="section-container">
+    <div className="section-header">
+      <h2 className="section-title">Our Core Values</h2>
+      <p className="section-subtitle">
+        The principles that guide everything we do
+      </p>
+    </div>
+    <div className="values-grid">
+      <div className="value-card compassion">
+        <div className="value-icon-wrapper">
+          <div className="value-icon">❤</div>
+          <div className="value-glow"></div>
+        </div>
+        <h3>Compassion First</h3>
+        <p>Every decision we make is guided by empathy and genuine care for both pets and their families.</p>
+      </div>
+      {/* Other value cards */}
+    </div>
+  </div>
+</section>
