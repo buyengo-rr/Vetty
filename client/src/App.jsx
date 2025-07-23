@@ -8,9 +8,6 @@ import Footer from './components/common/Footer';
 import Header from "./components/common/Header";
 import Sidebar from "./components/common/sidebar"; 
 
-
-
-
 import Home from './pages/Home';
 import AdminDashboard from './components/admin/Dashboard'; 
 import UserDashboard from "./components/user/Dashboard";
@@ -18,12 +15,8 @@ import Products from './pages/Products';
 import Services from './pages/Services';
 import './App.css';
 import UserProfile from "./components/user/Profile";
-// import UsersList from "./components/admin/UsersList";
-// import AdminProfile from "./components/admin/AdminProfile";
-import AppointmentPage from "./components/booking/AppointmentPage";
-import Cart from "./components/cart/Cart";
-import CheckoutPage from "./components/cart/Checkout";
-import OrderManagement from "./components/admin/OrderManagement";
+import UsersList from "./components/admin/UsersList";
+import AdminProfile from "./components/admin/AdminProfile";
 import AdminProducts from "./components/admin/ProductManagement";
 
 function App() {
@@ -67,6 +60,7 @@ function App() {
 
       <div className={`app-container ${isLoading ? 'loading' : ''}`}>
         {isAuthenticated && !isPublicPage ? <Sidebar /> : <Header />}
+        {isAuthenticated && !isPublicPage ? <Sidebar /> : <Header />}
 
         <main className={`main-content
           ${isAuthenticated && !isPublicPage ? 'with-sidebar' : ''}
@@ -81,11 +75,10 @@ function App() {
             <Route path="/user/products" element={<Products />} />
             <Route path="/user/services" element={<Services />} />
             <Route path="/user/profile" element={<UserProfile/>}/>
-            <Route path="/user/Appointment" element={<AppointmentPage />} />
+            <Route path="/admin/users" element={<UsersList />} />
             <Route path="/admin/products" element={<AdminProducts/>}/>
-            <Route path="/user/cart" element={<Cart/>}/>
-            <Route path="/checkout" element={<CheckoutPage/>}/>
-            <Route path="/admin/order" element={<OrderManagement/>}/>
+            <Route path="/admin/profile" element={<AdminProfile />} />
+            <Route path="/admin/product" element={<AdminProducts/>}/>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
