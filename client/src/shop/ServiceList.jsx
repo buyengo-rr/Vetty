@@ -1,6 +1,6 @@
 import React from 'react';
 import ServiceCard from './ServiceCard';
-import '../../client/src/styles/components.css'
+import '../styles/components.css'
 
 const ServiceList = ({ services, onServiceClick }) => {
   return (

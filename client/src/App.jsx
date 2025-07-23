@@ -76,6 +76,7 @@ function App() {
             <Route path="/user/services" element={<Services />} />
             <Route path="/user/profile" element={<UserProfile/>}/>
             <Route path="/admin/users" element={<UsersList />} />
+            <Route path="/admin/products" element={<AdminProducts/>}/>
             <Route path="/admin/profile" element={<AdminProfile />} />
             <Route path="/admin/product" element={<AdminProducts/>}/>
             <Route path="*" element={<NotFound />} />
