@@ -66,3 +66,17 @@ export default function About() {
     </div>
   </div>
 </section>
+{/* Team Section */}
+<section className="team-section">
+  <div className="section-container">
+    <div className="section-header">
+      <h2 className="section-title">Meet Our Expert Team</h2>
+      <p className="section-subtitle">
+        Dedicated professionals who treat your pets like family
+      </p>
+    </div>
+    <div className="team-grid">
+      {/* Team member cards would be added here */}
+    </div>
+  </div>
+</section>
