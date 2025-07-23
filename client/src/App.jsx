@@ -25,6 +25,7 @@ import CheckoutPage from "./components/cart/Checkout";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import OrderManagement from "./components/admin/OrderManagement";
+import AdminServicePage from "./components/admin/ServiceManagement";
 
 function App() {
   const location = useLocation();
@@ -94,6 +95,7 @@ function App() {
             <Route path="/user/appointment" element={<AppointmentPage/>}/>
             <Route path="/user/cart" element={<Cart/>}/>
             <Route path="/checkout" element={<CheckoutPage/>}/>
+            <Route path="/admin/services" element={<AdminServicePage/>}/>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
