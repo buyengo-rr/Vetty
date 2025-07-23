@@ -6,34 +6,35 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Footer from './components/common/Footer';
 import Header from "./components/common/Header";
-import Sidebar from "./components/common/sidebar"; 
+import Sidebar from "./components/common/sidebar";
 
 import Home from './pages/Home';
-import AdminDashboard from './components/admin/Dashboard'; 
-import UserDashboard from "./components/user/Dashboard";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 import Products from './pages/Products';
 import Services from './pages/Services';
-import './App.css';
+import AdminDashboard from './components/admin/Dashboard';
+import UserDashboard from "./components/user/Dashboard";
 import UserProfile from "./components/user/Profile";
+import AppointmentPage from "./components/booking/AppointmentPage";
 import UsersList from "./components/admin/UsersList";
 import AdminProfile from "./components/admin/AdminProfile";
 import AdminProducts from "./components/admin/ProductManagement";
-import AppointmentPage from "./components/booking/AppointmentPage";
+import OrderManagement from "./components/admin/OrderManagement";
+import AdminServicePage from "./components/admin/ServiceManagement";
 import Cart from "./components/cart/Cart";
 import CheckoutPage from "./components/cart/Checkout";
 
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import OrderManagement from "./components/admin/OrderManagement";
-import AdminServicePage from "./components/admin/ServiceManagement";
+import './App.css';
 
 function App() {
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
 
   const isAuthenticated = !!localStorage.getItem("token");
-  const publicPaths = ["/", "/login", "/register"];
-  const isPublicPage = publicPaths.includes(location.pathname);
+
+  const publicPaths = ["/", "/login", "/register", "/about", "/contact"];
+  const isPublicPage = publicPaths.some(path => location.pathname.startsWith(path));
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -67,40 +68,50 @@ function App() {
       )}
 
       <div className={`app-container ${isLoading ? 'loading' : ''}`}>
-        {isAuthenticated && !isPublicPage ? <Sidebar /> : <Header />}
-        {isAuthenticated && !isPublicPage ? <Sidebar /> : <Header />}
+
+        {/* Show Header on public pages */}
+        {isPublicPage && <Header />}
+
+        {/* Show Sidebar on authenticated private pages */}
+        {!isPublicPage && isAuthenticated && <Sidebar />}
 
         <main className={`main-content
           ${isAuthenticated && !isPublicPage ? 'with-sidebar' : ''}
           ${location.pathname === '/' ? 'home-page' : ''}
         `}>
           <Routes>
+            {/* Public Routes */}
             <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About/>}/>
-            <Route path="/contact" element={<Contact/>}/>
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/admin/dashboard" element={<AdminDashboard />} /> 
-            <Route path="/user/dashboard" element={<UserDashboard />} /> 
+
+            {/* User Routes */}
+            <Route path="/user/dashboard" element={<UserDashboard />} />
             <Route path="/user/products" element={<Products />} />
             <Route path="/user/services" element={<Services />} />
-            <Route path="/user/profile" element={<UserProfile/>}/>
-            <Route path="/user/Appointment" element={<AppointmentPage />} />
-            <Route path="/admin/orders" element={<OrderManagement />} />
+            <Route path="/user/profile" element={<UserProfile />} />
+            <Route path="/user/appointment" element={<AppointmentPage />} />
+            <Route path="/user/cart" element={<Cart />} />
+
+            {/* Admin Routes */}
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/users" element={<UsersList />} />
-            <Route path="/admin/products" element={<AdminProducts/>}/>
+            <Route path="/admin/products" element={<AdminProducts />} />
             <Route path="/admin/profile" element={<AdminProfile />} />
-            <Route path="/admin/product" element={<AdminProducts/>}/>
-            <Route path="/admin/orders" element={<OrderManagement/>}/>
-            <Route path="/user/appointment" element={<AppointmentPage/>}/>
-            <Route path="/user/cart" element={<Cart/>}/>
-            <Route path="/checkout" element={<CheckoutPage/>}/>
-            <Route path="/admin/services" element={<AdminServicePage/>}/>
+            <Route path="/admin/orders" element={<OrderManagement />} />
+            <Route path="/admin/services" element={<AdminServicePage />} />
+
+            {/* Shared Routes */}
+            <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
-         <ToastContainer />
 
+        <ToastContainer />
+
+        {/* Footer only on public pages */}
         {isPublicPage && <Footer />}
         <ScrollToTop />
       </div>
@@ -108,6 +119,7 @@ function App() {
   );
 }
 
+// Not Found Page
 function NotFound() {
   return (
     <div className="not-found">
@@ -121,6 +133,7 @@ function NotFound() {
   );
 }
 
+// Scroll To Top Button
 function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
@@ -136,7 +149,7 @@ function ScrollToTop() {
       aria-label="Scroll to top"
     >
       <svg viewBox="0 0 24 24" fill="none">
-        <path d="M7 14L12 9L17 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M7 14L12 9L17 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </button>
   );
