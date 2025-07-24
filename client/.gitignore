@@ -1,9 +1,0 @@
- 
-
-# Local development
-.env
-.env.local
-node_modules/
-.vite/
-node_modules/
- 45d5fa18 (git ignore)

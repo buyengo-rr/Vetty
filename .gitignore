@@ -1,0 +1,18 @@
+# Environment variables
+.env
+.env.local
+
+# Dependencies
+node_modules/
+
+# Vite
+.vite/
+
+# Build output
+dist/
+build/
+
+# System files
+.DS_Store
+Thumbs.db
+
