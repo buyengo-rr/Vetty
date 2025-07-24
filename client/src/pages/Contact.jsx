@@ -120,7 +120,7 @@ export default function Contact() {
                       onChange={handleChange}
                       required
                       rows="5"
-                      className={form-textarea ${!isMessageEditable ? 'disabled' : ''}}
+                      className={`form-textarea ${!isMessageEditable ? 'disabled' : ''}`}
                       disabled={!isMessageEditable}
                     />
                     <div className="message-controls">
@@ -143,7 +143,7 @@ export default function Contact() {
 
                   <button 
                     type="submit" 
-                    className={submit-button ${isSubmitting ? 'submitting' : ''}}
+                    className={`submit-button ${isSubmitting ? 'submitting' : ''}`}
                     disabled={isSubmitting}
                     onClick={handleSubmit}
                   >
