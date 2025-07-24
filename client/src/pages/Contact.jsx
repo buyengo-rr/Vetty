@@ -129,14 +129,18 @@ export default function Contact() {
                         onClick={() => setIsMessageEditable(!isMessageEditable)}
                         className="control-button edit-button"
                       >
-                        {isMessageEditable ? '🔒 Lock' : '✏ Edit'}
+
+                        {isMessageEditable ? '🔒 Lock' : '✏️ Edit'}
+
                       </button>
                       <button
                         type="button"
                         onClick={() => setFormData({...formData, message: ''})}
                         className="control-button delete-button"
                       >
+
                         🗑 Clear
+
                       </button>
                     </div>
                   </div>
