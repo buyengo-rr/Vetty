@@ -1,7 +1,6 @@
-// src/components/admin/ConfirmDeleteModal.jsx
 import React from "react";
 import { FaExclamationTriangle } from "react-icons/fa";
-// import "../../styles/confirmDeleteModal.css";
+
 
 export default function ConfirmDeleteModal({ product, onConfirm, onCancel }) {
   return (
