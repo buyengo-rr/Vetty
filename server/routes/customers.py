@@ -205,3 +205,44 @@ def get_customers():
         "pages": customers.pages,
         "current_page": page
     }), 200
+@customers_bp.route('/customers/<customer_id>/stats', methods=['GET'])
+@jwt_required()
+def get_customer_stats(customer_id):
+    current_user = get_jwt_identity()
+    customer = Customer.query.filter_by(id=customer_id, created_by=current_user['id']).first()
+    
+    if not customer:
+        return jsonify({"error": "Customer not found"}), 404
+    
+    from models import Invoice, Payment, Subscription
+    
+    total_invoices = Invoice.query.filter_by(user_id=customer_id).count()
+    paid_invoices = Invoice.query.filter_by(user_id=customer_id, status='paid').count()
+    total_revenue = db.session.query(db.func.sum(Invoice.total_amount)).filter(
+        Invoice.user_id == customer_id,
+        Invoice.status == 'paid'
+    ).scalar() or 0
+    
+    active_subscriptions = Subscription.query.filter_by(
+        user_id=customer_id,
+        status='active'
+    ).count()
+    
+    recent_payments = Payment.query.filter_by(user_id=customer_id).order_by(
+        Payment.created_at.desc()
+    ).limit(5).all()
+    
+    return jsonify({
+        "stats": {
+            "total_invoices": total_invoices,
+            "paid_invoices": paid_invoices,
+            "total_revenue": float(total_revenue),
+            "active_subscriptions": active_subscriptions,
+            "recent_payments": [{
+                "id": payment.id,
+                "amount": payment.amount,
+                "status": payment.status,
+                "created_at": payment.created_at.isoformat()
+            } for payment in recent_payments]
+        }
+    }), 200
