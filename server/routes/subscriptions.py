@@ -53,3 +53,30 @@ def create_subscription():
         "message": "Subscription created successfully",
         "subscription": subscription.to_dict()
     }), 201
+@subscriptions_bp.route('/subscriptions', methods=['GET'])
+@jwt_required()
+def get_subscriptions():
+    current_user = get_jwt_identity()
+    status_filter = request.args.get('status')
+    
+    query = Subscription.query.filter_by(user_id=current_user['id'])
+    if status_filter:
+        query = query.filter_by(status=status_filter)
+    
+    return jsonify({
+        "subscriptions": [sub.to_dict() for sub in query.all()]
+    }), 200
+
+@subscriptions_bp.route('/subscriptions/<subscription_id>', methods=['GET'])
+@jwt_required()
+def get_subscription(subscription_id):
+    current_user = get_jwt_identity()
+    subscription = Subscription.query.filter_by(
+        id=subscription_id, 
+        user_id=current_user['id']
+    ).first()
+    
+    if not subscription:
+        return jsonify({"error": "Subscription not found"}), 404
+    
+    return jsonify(subscription.to_dict()), 200
