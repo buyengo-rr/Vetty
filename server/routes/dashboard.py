@@ -1,52 +1,112 @@
 from flask import Blueprint, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from models import db, User, Product, Service, Order, Appointment
+from datetime import datetime
+from models import db, User, Order, Appointment, Service, CartItem
 
-dashboard_bp = Blueprint('dashboard', __name__, url_prefix="/api/dashboard")
+dashboard_bp = Blueprint("dashboard", __name__)
 
-@dashboard_bp.route('/', methods=['GET'])
+# Helper for formatting time
+def format_time(dt):
+    if not dt:
+        return "Unknown"
+    return dt.strftime("%Y-%m-%d %H:%M")
+
+# Admin Dashboard Route
+@dashboard_bp.route("/admin/dashboard", methods=["GET"])
 @jwt_required()
-def dashboard_data():
+def admin_dashboard():
+    total_users = User.query.count()
+    total_orders = Order.query.count()
+    total_appointments = Appointment.query.count()
+    total_services = Service.query.count()
+
+    recent_activities = []
+
+    latest_users = User.query.order_by(User.created_at.desc()).limit(2).all()
+    for user in latest_users:
+        recent_activities.append({
+            "time": format_time(user.created_at),
+            "message": f"New user registered: {user.username}"
+        })
+
+    latest_orders = Order.query.order_by(Order.created_at.desc()).limit(2).all()
+    for order in latest_orders:
+        recent_activities.append({
+            "time": format_time(order.created_at),
+            "message": f"Order #{order.id} placed"
+        })
+
+    latest_services = Service.query.order_by(Service.updated_at.desc()).limit(1).all()
+    for svc in latest_services:
+        recent_activities.append({
+            "time": format_time(svc.updated_at),
+            "message": f"Service '{svc.name}' updated"
+        })
+
+    latest_appointments = Appointment.query.filter_by(status="approved") \
+                            .order_by(Appointment.updated_at.desc()).limit(1).all()
+    for appt in latest_appointments:
+        recent_activities.append({
+            "time": format_time(appt.updated_at),
+            "message": "Appointment request approved"
+        })
+
+    # Return sorted by newest
+    recent_activities.sort(key=lambda x: x['time'], reverse=True)
+
+    return jsonify({
+        "users": total_users,
+        "orders": total_orders,
+        "appointments": total_appointments,
+        "services": total_services,
+        "recent_logs": recent_activities
+    }), 200
+
+
+# User Dashboard Route
+@dashboard_bp.route("/user/dashboard", methods=["GET"])
+@jwt_required()
+def user_dashboard():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
 
-    if not user:
-        return jsonify({"error": "User not found"}), 404
+    appointments = Appointment.query.filter_by(user_id=user_id, status="upcoming").count()
+    cart_items = CartItem.query.filter_by(user_id=user_id).count()
+    orders = Order.query.filter_by(user_id=user_id).count()
+    booked_services = Appointment.query.filter_by(user_id=user_id, status="confirmed").count()
 
-    role = user.role.name
+    # Recent activity for user
+    recent = []
 
-    if role == "admin":
-        # Admin dashboard summary
-        total_users = User.query.count()
-        total_products = Product.query.count()
-        total_services = Service.query.count()
-        total_orders = Order.query.count()
-        total_appointments = Appointment.query.count()
+    latest_appts = Appointment.query.filter_by(user_id=user_id) \
+                     .order_by(Appointment.created_at.desc()).limit(1).all()
+    for appt in latest_appts:
+        recent.append({
+            "time": format_time(appt.created_at),
+            "message": "Booked a vet appointment 🐶"
+        })
 
-        return jsonify({
-            "role": "admin",
-            "summary": {
-                "total_users": total_users,
-                "total_products": total_products,
-                "total_services": total_services,
-                "total_orders": total_orders,
-                "total_appointments": total_appointments
-            }
-        }), 200
+    latest_orders = Order.query.filter_by(user_id=user_id) \
+                      .order_by(Order.created_at.desc()).limit(1).all()
+    for order in latest_orders:
+        recent.append({
+            "time": format_time(order.created_at),
+            "message": f"Placed order #{order.id}"
+        })
 
-    else:
-        # Normal user dashboard summary
-        user_appointments = Appointment.query.filter_by(user_id=user_id).count()
-        cart_items = len(user.cart_items) if hasattr(user, 'cart_items') else 0
-        booked_services = len(user.appointments) if hasattr(user, 'appointments') else 0
-        orders = Order.query.filter_by(user_id=user_id).count()
+    latest_cart = CartItem.query.filter_by(user_id=user_id) \
+                     .order_by(CartItem.created_at.desc()).limit(1).all()
+    for item in latest_cart:
+        recent.append({
+            "time": format_time(item.created_at),
+            "message": f"Added item to cart 🛒"
+        })
 
-        return jsonify({
-            "role": "user",
-            "summary": {
-                "appointments": user_appointments,
-                "cart_items": cart_items,
-                "booked_services": booked_services,
-                "orders": orders
-            }
-        }), 200
+    recent.sort(key=lambda x: x['time'], reverse=True)
+
+    return jsonify({
+        "appointments": appointments,
+        "cart_items": cart_items,
+        "orders": orders,
+        "booked_services": booked_services,
+        "recent_logs": recent
+    }), 200
