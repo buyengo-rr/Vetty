@@ -1,3 +1,4 @@
+from . import db
 class Cart(db.Model):
     __tablename__ = 'carts'
 
