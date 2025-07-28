@@ -109,3 +109,70 @@ def get_webhook(webhook_id):
             "updated_at": webhook.updated_at.isoformat() if webhook.updated_at else None
         }
     }), 200
+# Update webhook
+@webhooks_bp.route('/webhooks/<webhook_id>', methods=['PUT'])
+@jwt_required()
+def update_webhook(webhook_id):
+    current_user = get_jwt_identity()
+    data = request.get_json()
+    
+    webhook = Webhook.query.filter_by(id=webhook_id, user_id=current_user['id']).first()
+    if not webhook:
+        return jsonify({"error": "Webhook not found"}), 404
+    
+    # Update allowed fields
+    if 'url' in data:
+        webhook.url = data['url']
+    
+    if 'events' in data:
+        events = data['events']
+        valid_events = [
+            'payment.created', 'payment.completed', 'payment.failed',
+            'subscription.created', 'subscription.updated', 'subscription.cancelled',
+            'invoice.created', 'invoice.sent', 'invoice.paid', 'invoice.overdue',
+            'customer.created', 'customer.updated', 'customer.deleted'
+        ]
+        
+        for event in events:
+            if event not in valid_events:
+                return jsonify({"error": f"Invalid event: {event}"}), 400
+        
+        webhook.events = events
+    
+    if 'description' in data:
+        webhook.description = data['description']
+    
+    if 'secret' in data:
+        webhook.secret = data['secret']
+    
+    if 'is_active' in data:
+        webhook.is_active = data['is_active']
+    
+    webhook.updated_at = datetime.utcnow()
+    db.session.commit()
+    
+    return jsonify({
+        "message": "Webhook updated successfully",
+        "webhook": {
+            "id": webhook.id,
+            "url": webhook.url,
+            "events": webhook.events,
+            "is_active": webhook.is_active,
+            "updated_at": webhook.updated_at.isoformat()
+        }
+    }), 200
+
+# Delete webhook
+@webhooks_bp.route('/webhooks/<webhook_id>', methods=['DELETE'])
+@jwt_required()
+def delete_webhook(webhook_id):
+    current_user = get_jwt_identity()
+    webhook = Webhook.query.filter_by(id=webhook_id, user_id=current_user['id']).first()
+    
+    if not webhook:
+        return jsonify({"error": "Webhook not found"}), 404
+    
+    db.session.delete(webhook)
+    db.session.commit()
+    
+    return jsonify({"message": "Webhook deleted successfully"}), 200
