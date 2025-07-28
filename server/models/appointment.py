@@ -1,6 +1,6 @@
 class Appointment(db.Model):
 
-    __tablename__ = 'appointment'
+    __tablename__ = 'appointments'
      
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
