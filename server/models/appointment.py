@@ -3,8 +3,9 @@ class Appointment(db.Model):
     __tablename__ = 'appointments'
      
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    service_id = db.Column(db.Integer, db.ForeignKey('service.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    service_id = db.Column(db.Integer, db.ForeignKey('services.id'))
     scheduled_time = db.Column(db.DateTime, nullable=False)
     vet_name = db.Column(db.String,)
     status = db.Column(db.String, default="pending")
