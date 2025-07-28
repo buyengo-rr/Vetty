@@ -7,6 +7,7 @@ class Order(db.Model):
 
     user = db.relationship('User', back_populates='orders')
     items = db.relationship('OrderItem', back_populates='order')
+    
 
     def __repr__(self):
         return f"<Order ID: {self.id} for User#{self.user_id} - Status: {self.delivery_status}>"
