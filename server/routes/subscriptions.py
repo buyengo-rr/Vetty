@@ -14,7 +14,7 @@ def create_subscription():
     data = request.get_json()
     
     product_id = data.get('product_id')
-    billing_cycle = data.get('billing_cycle', 'monthly')  # monthly, yearly
+    billing_cycle = data.get('billing_cycle', 'monthly')  
     trial_days = data.get('trial_days', 0)
     
     if not product_id:
