@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./auth.css";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -18,115 +19,68 @@ export default function Register() {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      setMessage(" Passwords do not match!");
+      setMessage("Passwords do not match!");
       return;
     }
 
     setTimeout(() => {
-      setMessage(
-        ` Registered successfully as ${formData.role.toUpperCase()}!`
-      );
+      setMessage(`Registered successfully as ${formData.role.toUpperCase()}!`);
     }, 500);
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        background: "#eef2f7",
-      }}
-    >
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          background: "#fff",
-          padding: "2rem",
-          borderRadius: "10px",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-          width: "100%",
-          maxWidth: "400px",
-        }}
-      >
-        <h2 style={{ textAlign: "center", marginBottom: "1rem", color: "#333" }}>
-          👤 Register
-        </h2>
+    <div className="register-container">
+      <form onSubmit={handleSubmit} className="register-form">
+        <h2 className="register-title">👤 Register</h2>
 
         <input
           name="username"
           placeholder="Username"
           onChange={handleChange}
-          style={inputStyle}
+          className="register-input"
         />
         <input
           name="email"
           type="email"
           placeholder="Email"
           onChange={handleChange}
-          style={inputStyle}
+          className="register-input"
         />
         <input
           name="password"
           type="password"
           placeholder="Password"
           onChange={handleChange}
-          style={inputStyle}
+          className="register-input"
         />
         <input
           name="confirmPassword"
           type="password"
           placeholder="Confirm Password"
           onChange={handleChange}
-          style={inputStyle}
+          className="register-input"
         />
 
-        
-        <label style={{ marginBottom: "0.5rem", display: "block", color: "#555" }}>
-          Register as:
-        </label>
+        <label className="register-label">Register as:</label>
         <select
           name="role"
           value={formData.role}
           onChange={handleChange}
-          style={{
-            ...inputStyle,
-            padding: "0.5rem",
-            cursor: "pointer",
-          }}
+          className="register-select"
         >
           <option value="user">User</option>
           <option value="admin">Admin</option>
         </select>
 
-        <button
-          type="submit"
-          style={{
-            background: "#4f46e5",
-            color: "#fff",
-            border: "none",
-            padding: "0.75rem",
-            borderRadius: "6px",
-            width: "100%",
-            cursor: "pointer",
-            fontWeight: "bold",
-            marginTop: "1rem",
-            transition: "background 0.3s",
-          }}
-          onMouseOver={(e) => (e.target.style.background = "#4338ca")}
-          onMouseOut={(e) => (e.target.style.background = "#4f46e5")}
-        >
+        <button type="submit" className="register-button">
           Register
         </button>
 
         {message && (
           <p
-            style={{
-              marginTop: "1rem",
-              color: message.startsWith("") ? "green" : "red",
-              textAlign: "center",
-            }}
+            className={`register-message ${
+              message.includes("successfully") ? "success" : "error"
+            }`}
           >
             {message}
           </p>
@@ -135,13 +89,3 @@ export default function Register() {
     </div>
   );
 }
-
-const inputStyle = {
-  width: "100%",
-  padding: "0.75rem",
-  marginBottom: "1rem",
-  border: "1px solid #ccc",
-  borderRadius: "6px",
-  outline: "none",
-  fontSize: "1rem",
-};
