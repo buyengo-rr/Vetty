@@ -19,7 +19,7 @@ def init_db(app):
         from .appointment import Appointment
         from .serviceBooking import ServiceBooking 
         from .cartItem import CartItem
-        
+        from .invoiceitem import InvoiceItem
         
 
        
