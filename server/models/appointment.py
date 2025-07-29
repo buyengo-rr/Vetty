@@ -1,3 +1,5 @@
+from . import db
+
 class Appointment(db.Model):
 
     __tablename__ = 'appointments'
@@ -15,4 +17,3 @@ class Appointment(db.Model):
 
     def __repr__(self):
         return f"<Appointment {self.id} for User {self.user_id} on {self.scheduled_time}>"
-    
