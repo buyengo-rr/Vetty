@@ -1,4 +1,6 @@
 from . import db
+from datetime import datetime
+
 class Cart(db.Model):
     __tablename__ = 'carts'
 
