@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 db = SQLAlchemy()
-
+    
 def init_db(app):
    
     db.init_app(app)
@@ -19,8 +19,11 @@ def init_db(app):
         from .appointment import Appointment
         from .serviceBooking import ServiceBooking 
         from .cartItem import CartItem
-        from .invoiceitem import InvoiceItem
+        
         
 
        
         db.create_all()
+
+
+
