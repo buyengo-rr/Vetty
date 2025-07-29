@@ -1,6 +1,7 @@
 from . import db
 from datetime import datetime
 
+
 class Appointment(db.Model):
     __tablename__ = 'appointments'
      
@@ -21,4 +22,6 @@ class Appointment(db.Model):
     service = db.relationship('Service', backref='appointments')
 
     def __repr__(self):
-        return f"<Appointment {self.id} | User {self.user_id} | {self.scheduled_time}>"
+<
+        return f"<Appointment {self.id} for User {self.user_id} on {self.scheduled_time}>"
+
