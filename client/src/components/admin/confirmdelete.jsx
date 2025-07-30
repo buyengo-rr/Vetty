@@ -1,14 +1,16 @@
 import React from "react";
 import { FaExclamationTriangle } from "react-icons/fa";
+import "../../styles/pages.css";
 
-
-export default function ConfirmDeleteModal({ product, onConfirm, onCancel }) {
+const ConfirmDeleteModal = ({ product, onConfirm, onCancel }) => {
   return (
     <div className="modal-overlay">
       <div className="modal confirm-modal">
         <FaExclamationTriangle className="warning-icon" />
         <h3>Delete Product</h3>
-        <p>Are you sure you want to delete <strong>{product.name}</strong>?</p>
+        <p>
+          Are you sure you want to delete <strong>{product.name}</strong>?
+        </p>
 
         <div className="modal-actions">
           <button className="cancel-btn" onClick={onCancel}>Cancel</button>
@@ -17,4 +19,6 @@ export default function ConfirmDeleteModal({ product, onConfirm, onCancel }) {
       </div>
     </div>
   );
-}
+};
+
+export default ConfirmDeleteModal;

@@ -1,18 +1,45 @@
 import React from 'react';
-
+import "./service.css"
 
 const ServiceCard = ({ service, onEdit, onDelete }) => {
+  const formattedPrice = new Intl.NumberFormat('en-KE', {
+    style: 'currency',
+    currency: 'KES',
+    minimumFractionDigits: 0,
+  }).format(service.price);
+
   return (
     <div className="service-card">
-      {service.preview && (
-        <img src={service.preview} alt={service.name} className="card-img" />
+      {service?.image_url && (
+        <div className="service-image-wrapper">
+          <img
+            src={`http://localhost:5000${service.image_url}`}
+            alt={service.name || "Service image"}
+            className="service-image"
+          />
+        </div>
       )}
-      <h3>{service.name}</h3>
-      <p>{service.description}</p>
-      <p><strong>Price:</strong> ${service.price}</p>
-      <div className="card-actions">
-        <button onClick={onEdit}>Edit</button>
-        <button onClick={onDelete} className="delete-btn">Delete</button>
+
+      <div className="service-content">
+        <h4 className="service-name">{service.name}</h4>
+        <p className="service-description">{service.description}</p>
+        <p className="service-price"><strong>{formattedPrice}</strong></p>
+        <p className="service-type">{service.type}</p>
+
+        <div className="card-buttons">
+          <button
+            className="edit-btn"
+            onClick={() => onEdit(service)}
+          >
+            Edit
+          </button>
+          <button
+            className="delete-btn"
+            onClick={() => onDelete(service.id)}
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   );

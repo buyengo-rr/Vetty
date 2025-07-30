@@ -1,0 +1,211 @@
+/* General Container */
+.service-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.service-container h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+    text-align: center;
+}
+
+.service-container>button {
+    background-color: #1d4ed8;
+    color: #fff;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+    transition: background-color 0.2s ease;
+}
+
+.service-container>button:hover {
+    background-color: #2563eb;
+}
+
+/* Grid Layout */
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Service Card */
+.service-card {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    /* Fixed height for consistent layout */
+    background-color: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+}
+
+/* Top Half: Image */
+.service-image {
+    height: 50%;
+    width: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Bottom Half: Content */
+.service-content {
+    height: 50%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+/* Text Styles */
+.service-name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #111827;
+    margin-bottom: 0.4rem;
+}
+
+.service-description {
+    font-size: 0.95rem;
+    color: #4b5563;
+    margin-bottom: 0.5rem;
+}
+
+.service-price {
+    color: #10b981;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+.service-type {
+    color: #6366f1;
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+}
+
+/* Card Buttons */
+.card-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-top: auto;
+}
+
+.edit-btn,
+.delete-btn {
+    flex: 1;
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    color: #fff;
+}
+
+.edit-btn {
+    background-color: #fbbf24;
+    color: #1f2937;
+}
+
+.edit-btn:hover {
+    background-color: #f59e0b;
+}
+
+.delete-btn {
+    background-color: #ef4444;
+}
+
+.delete-btn:hover {
+    background-color: #dc2626;
+}
+
+/* Modal Styles */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(31, 41, 55, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+}
+
+.modal-form {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.modal-form h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    color: #111827;
+}
+
+.modal-form input,
+.modal-form textarea {
+    padding: 0.6rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.2s ease;
+}
+
+.modal-form input:focus,
+.modal-form textarea:focus {
+    border-color: #3b82f6;
+}
+
+.modal-form button[type="submit"] {
+    background-color: #10b981;
+    color: white;
+    border: none;
+    padding: 0.6rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.modal-form button[type="submit"]:hover {
+    background-color: #059669;
+}
+
+.modal-form button[type="button"] {
+    background-color: #6b7280;
+    color: white;
+    border: none;
+    padding: 0.6rem;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.modal-form button[type="button"]:hover {
+    background-color: #4b5563;
+}

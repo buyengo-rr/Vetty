@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaUsers, FaClipboardList, FaCalendarCheck, FaCogs, FaClock } from "react-icons/fa";
+import api, { setAuthToken } from "../../api";
 import "../../styles/components.css";
 
 function getGreeting() {
@@ -10,15 +11,31 @@ function getGreeting() {
   return "Good Evening";
 }
 
-const recentLogs = [
-  { time: "Just now", message: "New user registered: Jane Doe" },
-  { time: "5 mins ago", message: "Order #1021 placed by John Mwangi" },
-  { time: "10 mins ago", message: "Service 'Vaccination' updated" },
-  { time: "30 mins ago", message: "Appointment request approved" },
-  { time: "1 hr ago", message: "User Peter deleted account" },
-];
-
 export default function AdminDashboard() {
+  const [dashboardData, setDashboardData] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setAuthToken(token); 
+
+    const fetchDashboard = async () => {
+      try {
+        const res = await api.get("/admin/dashboard");
+        setDashboardData(res.data);
+      } catch (err) {
+        console.error("Failed to load admin dashboard", err.response?.data || err.message);
+      }
+    };
+
+    fetchDashboard();
+  }, []);
+
+  if (!dashboardData) {
+    return <p>Loading...</p>;
+  }
+
+  const { users, orders, appointments, services, recent_logs } = dashboardData;
+
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
@@ -30,22 +47,22 @@ export default function AdminDashboard() {
         <div className="card highlight">
           <FaUsers size={24} />
           <p>Total Users</p>
-          <h3>145</h3>
+          <h3>{users}</h3>
         </div>
         <div className="card highlight">
           <FaClipboardList size={24} />
           <p>Total Orders</p>
-          <h3>72</h3>
+          <h3>{orders}</h3>
         </div>
         <div className="card highlight">
           <FaCalendarCheck size={24} />
           <p>Appointments</p>
-          <h3>25</h3>
+          <h3>{appointments}</h3>
         </div>
         <div className="card highlight">
           <FaClipboardList size={24} />
           <p>Available Services</p>
-          <h3>12</h3>
+          <h3>{services}</h3>
         </div>
       </div>
 
@@ -60,7 +77,7 @@ export default function AdminDashboard() {
       <div className="recent-activity">
         <h3><FaClock style={{ marginRight: "8px" }} />Recent Activity</h3>
         <ul className="log-list">
-          {recentLogs.map((log, index) => (
+          {recent_logs.map((log, index) => (
             <li key={index}>
               <span className="log-time">{log.time}</span>
               <span className="log-message">{log.message}</span>
