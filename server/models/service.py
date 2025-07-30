@@ -8,11 +8,25 @@ class Service(db.Model):
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text)
     price = db.Column(db.Float, nullable=False)
-    duration_minutes = db.Column(db.Integer)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    image_url = db.Column(db.String(255))
+    type = db.Column(db.String(50))  
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    bookings = db.relationship("ServiceBooking", back_populates="service", cascade="all, delete-orphan")
 
-    bookings = db.relationship('ServiceBooking', back_populates='service', cascade='all, delete-orphan')
+    # ✅ Add this correctly
+    appointments = db.relationship(
+        'Appointment',
+        backref=db.backref('service', passive_deletes=True),
+        cascade='all, delete-orphan'
+    )
 
-    def __repr__(self):
-        return f"<Service {self.name} (ID: {self.id}) - ${self.price}>"
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "price": self.price,
+            "image_url": self.image_url,
+            "type": self.type
+        }
