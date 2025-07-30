@@ -1,112 +1,143 @@
-import React, { useState } from "react";
-import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
 import ProductFormModal from "./formmodal";
 import ConfirmDeleteModal from "./confirmdelete";
 import "../../styles/pages.css";
 
-const dummyProducts = [
-  {
-    id: 1,
-    name: "Premium Dog Food",
-    price: 2500,
-    stock: 14,
-    image: "/dog-food.jpg",
-    type: "Food",
-  },
-  {
-    id: 2,
-    name: "Cat Scratching Post",
-    price: 1800,
-    stock: 8,
-    image: "/cat-post.jpg",
-    type: "Accessories",
-  },
-];
+const AdminProductPage = () => {
+  const [products, setProducts] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [editProduct, setEditProduct] = useState(null);
+  const [deleteProduct, setDeleteProduct] = useState(null);
+  const token = localStorage.getItem("token");
 
-export default function AdminProducts() {
-  const [products, setProducts] = useState(dummyProducts);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
-  const handleAdd = () => {
-    setSelectedProduct(null);
-    setIsFormOpen(true);
-  };
+  const fetchProducts = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/admin/product", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-  const handleEdit = (product) => {
-    setSelectedProduct(product);
-    setIsFormOpen(true);
-  };
+      if (!res.ok) throw new Error("Unauthorized");
 
-  const handleDelete = (product) => {
-    setSelectedProduct(product);
-    setIsDeleteOpen(true);
-  };
-
-  const handleSave = (productData) => {
-    if (productData.id) {
-      setProducts((prev) =>
-        prev.map((p) => (p.id === productData.id ? productData : p))
-      );
-    } else {
-      const newProduct = {
-        ...productData,
-        id: Date.now(),
-        image: productData.image || "/default-product.jpg",
-      };
-      setProducts((prev) => [...prev, newProduct]);
+      const data = await res.json();
+      setProducts(data);
+    } catch (err) {
+      console.error("Failed to fetch products", err);
+      alert("Login as admin to view products.");
     }
-    setIsFormOpen(false);
   };
 
-  const confirmDelete = () => {
-    setProducts((prev) => prev.filter((p) => p.id !== selectedProduct.id));
-    setIsDeleteOpen(false);
+  const handleSave = async (formData) => {
+    try {
+      const payload = new FormData();
+      for (let key in formData) {
+        payload.append(key, formData[key]);
+      }
+
+      const response = await fetch(
+        editProduct
+          ? `http://localhost:5000/admin/product/${formData.id}`
+          : "http://localhost:5000/admin/product",
+        {
+          method: editProduct ? "PUT" : "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: payload,
+        }
+      );
+
+      if (!response.ok) throw new Error("Failed to save");
+
+      await fetchProducts();
+      setShowModal(false);
+      setEditProduct(null);
+    } catch (error) {
+      console.error(error);
+      alert("Error saving product");
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:5000/admin/product/${deleteProduct.id}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (!res.ok) throw new Error("Delete failed");
+
+      await fetchProducts();
+      setDeleteProduct(null);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete product");
+    }
   };
 
   return (
-    <div className="admin-products-page">
-      <div className="admin-header">
-        <h2>Manage Products</h2>
-        <button className="add-btn" onClick={handleAdd}>
-          <FaPlus /> Add Product
-        </button>
-      </div>
+    <div className="admin-product-page">
+      <h2>Admin Product Management</h2>
+      <button onClick={() => setShowModal(true)}>Add Product</button>
 
-      <div className="product-cards">
-        {products.map((product) => (
-          <div className="product-card" key={product.id}>
-            <img src={product.image} alt={product.name} />
-            <div className="card-info">
-              <h4>{product.name}</h4>
-              <p>Type: {product.type}</p>
-              <p>Price: KES {product.price}</p>
-              <p>Stock: {product.stock}</p>
-              <div className="card-actions">
-                <button onClick={() => handleEdit(product)}><FaEdit /> Edit</button>
-                <button onClick={() => handleDelete(product)}><FaTrash /> Delete</button>
-              </div>
+      <div className="product-grid">
+        {products.map((p) => (
+          <div key={p.id} className="product-card">
+           {p.image_url && (
+            <img
+                src={`http://localhost:5000${p.image_url}`}
+                alt={p.name}
+               className="product-image"
+           />
+             )}
+
+            <div className="product-details">
+              <h4>{p.name}</h4>
+              <p>Type: {p.type}</p>
+              <p>Price: {p.price} KES</p>
+              <p>Stock: {p.stock}</p>
+            </div>
+            <div className="product-actions">
+              <button
+                onClick={() => {
+                  setEditProduct(p);
+                  setShowModal(true);
+                }}
+              >
+                Edit
+              </button>
+              <button onClick={() => setDeleteProduct(p)}>Delete</button>
             </div>
           </div>
         ))}
       </div>
 
-      {isFormOpen && (
-        <ProductFormModal
-          product={selectedProduct}
-          onClose={() => setIsFormOpen(false)}
-          onSave={handleSave}
-        />
-      )}
+      <ProductFormModal
+        product={editProduct}
+        visible={showModal}
+        onClose={() => {
+          setShowModal(false);
+          setEditProduct(null);
+        }}
+        onSave={handleSave}
+      />
 
-      {isDeleteOpen && (
+      {deleteProduct && (
         <ConfirmDeleteModal
-          product={selectedProduct}
-          onConfirm={confirmDelete}
-          onCancel={() => setIsDeleteOpen(false)}
+          product={deleteProduct}
+          onConfirm={handleDelete}
+          onCancel={() => setDeleteProduct(null)}
         />
       )}
     </div>
   );
-}
+};
+
+export default AdminProductPage;

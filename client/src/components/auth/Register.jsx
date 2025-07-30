@@ -1,9 +1,9 @@
 import { useState } from "react";
 import "./auth.css";
 
-export default function Register() {
+export default function RegisterPage() {
   const [formData, setFormData] = useState({
-    username: "",
+    username: "",          
     email: "",
     password: "",
     confirmPassword: "",
@@ -11,11 +11,10 @@ export default function Register() {
   });
   const [message, setMessage] = useState("");
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
@@ -23,9 +22,31 @@ export default function Register() {
       return;
     }
 
-    setTimeout(() => {
-      setMessage(`Registered successfully as ${formData.role.toUpperCase()}!`);
-    }, 500);
+    try {
+      const res = await fetch("http://localhost:5000/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessage("Registered successfully!");
+        // Optionally reset form
+        setFormData({
+          username: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          role: "user",
+        });
+      } else {
+        setMessage(data.error || "Registration failed");
+      }
+    } catch (err) {
+      setMessage("Network error");
+    }
   };
 
   return (
@@ -34,31 +55,39 @@ export default function Register() {
         <h2 className="register-title">👤 Register</h2>
 
         <input
-          name="username"
-          placeholder="Username"
+          name="username"                          
+          placeholder="Full Name"
+          value={formData.username}
           onChange={handleChange}
           className="register-input"
+          required
         />
         <input
           name="email"
           type="email"
           placeholder="Email"
+          value={formData.email}
           onChange={handleChange}
           className="register-input"
+          required
         />
         <input
           name="password"
           type="password"
           placeholder="Password"
+          value={formData.password}
           onChange={handleChange}
           className="register-input"
+          required
         />
         <input
           name="confirmPassword"
           type="password"
           placeholder="Confirm Password"
+          value={formData.confirmPassword}
           onChange={handleChange}
           className="register-input"
+          required
         />
 
         <label className="register-label">Register as:</label>
@@ -79,7 +108,7 @@ export default function Register() {
         {message && (
           <p
             className={`register-message ${
-              message.includes("successfully") ? "success" : "error"
+              message.includes("success") ? "success" : "error"
             }`}
           >
             {message}

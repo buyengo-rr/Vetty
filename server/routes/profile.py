@@ -1,57 +1,74 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request, jsonify, send_from_directory
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from werkzeug.utils import secure_filename
 from models import db, User
+import os
 
-profile_bp = Blueprint('profile', __name__, url_prefix="/api/profile")
+profile_bp = Blueprint('profile', __name__)
+UPLOAD_FOLDER = 'static/uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @profile_bp.route('/', methods=['GET'])
 @jwt_required()
 def get_profile():
-    user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    identity = get_jwt_identity()
+    user_id = identity.get("id") if isinstance(identity, dict) else identity
 
+    user = User.query.get(user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
 
-    profile_data = {
+    return jsonify({
         "id": user.id,
         "username": user.username,
         "email": user.email,
-        "role": user.role.name,
-        "person": {
-            "full_name": user.person.full_name if user.person else None,
-            "phone": user.person.phone if user.person else None,
-            "avatar": user.person.avatar if user.person else None,
-        }
-    }
-    return jsonify(profile_data), 200
+        "full_name": getattr(user, "full_name", ""),
+        "phone": getattr(user, "phone", ""),
+        "avatar": user.avatar,
+        "role": user.role.name if hasattr(user.role, "name") else user.role
+    }), 200
 
 @profile_bp.route('/', methods=['PUT'])
 @jwt_required()
 def update_profile():
-    user_id = get_jwt_identity()
+    identity = get_jwt_identity()
+    user_id = identity.get("id") if isinstance(identity, dict) else identity
+
     user = User.query.get(user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
 
-    data = request.get_json()
-    email = data.get('email')
-    phone = data.get('phone')
-    full_name = data.get('full_name')
-    avatar = data.get('avatar')
+    email = request.form.get('email')
+    full_name = request.form.get('full_name')
+    phone = request.form.get('phone')
 
     if email:
         user.email = email
-
-    if not user.person:
-        user.person = Person(user_id=user.id)
-
-    if phone:
-        user.person.phone = phone
     if full_name:
-        user.person.full_name = full_name
-    if avatar:
-        user.person.avatar = avatar
+        user.full_name = full_name
+    if phone:
+        user.phone = phone
+
+    if 'profilePhoto' in request.files:
+        image = request.files['profilePhoto']
+        filename = secure_filename(f"user_{user.id}_{image.filename}")
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
+        image.save(filepath)
+        user.avatar = f"/static/uploads/{filename}"
 
     db.session.commit()
-    return jsonify({"message": "Profile updated successfully"}), 200
+
+    return jsonify({
+        "id": user.id,
+        "username": user.username,
+        "email": user.email,
+        "full_name": user.full_name,
+        "phone": user.phone,
+        "avatar": user.avatar,
+        "role": user.role.name if hasattr(user.role, "name") else user.role
+    }), 200
+
+# Serve static uploads
+@profile_bp.route('/uploads/<path:filename>')
+def serve_uploaded_file(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)

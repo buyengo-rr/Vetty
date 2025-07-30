@@ -27,7 +27,7 @@ const Cart = () => {
               {cartItems.map(item => (
                 <tr key={item.id}>
                   <td className="cart-product">
-                    <img src={item.image} alt={item.name} />
+                    <img src={`http://127.0.0.1:5000${item.image_url}`} alt={item.name} />
                     <span>{item.name}</span>
                   </td>
                   <td>

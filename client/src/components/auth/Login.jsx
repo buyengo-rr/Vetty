@@ -1,21 +1,21 @@
+// src/pages/auth/loginPage.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./auth.css"; 
+import "./auth.css";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/login", {
+      const res = await fetch("http://localhost:5000/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -31,11 +31,7 @@ export default function LoginPage() {
         setMessage("Login successful!");
 
         setTimeout(() => {
-          if (data.user.role === "admin") {
-            navigate("/admin/dashboard");
-          } else {
-            navigate("/user/dashboard");
-          }
+          navigate(data.user.role === "admin" ? "/admin/dashboard" : "/user/dashboard");
         }, 1000);
       } else {
         setMessage(data.error || "Login failed");

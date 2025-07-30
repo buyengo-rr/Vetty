@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   FaShoppingCart,
@@ -7,6 +7,7 @@ import {
   FaConciergeBell,
   FaClock,
 } from "react-icons/fa";
+import API from "../../api"; 
 import "../../styles/components.css";
 
 function getGreeting() {
@@ -17,11 +18,8 @@ function getGreeting() {
 }
 
 export default function UserDashboard() {
-  const activities = [
-    { time: "10:15 AM", activity: "Booked vet appointment for Simba 🐶" },
-    { time: "9:30 AM", activity: "Added dog food to cart 🛒" },
-    { time: "Yesterday", activity: "Ordered flea treatment kit 🐾" },
-  ];
+  const [summary, setSummary] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const popularProducts = [
     {
@@ -44,38 +42,62 @@ export default function UserDashboard() {
     },
   ];
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await API.get("/user/dashboard");
+        setSummary(res.data);
+      } catch (err) {
+        console.error("Dashboard fetch error:", err);
+        setSummary({
+          appointments: 0,
+          cart_items: 0,
+          orders: 0,
+          booked_services: 0,
+          recent_logs: [],
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <p>Loading dashboard...</p>;
+
   return (
     <div className="dashboard-container">
-      <h2>{getGreeting()}, Welcome Back 👋</h2>
+      <h2>{getGreeting()}, Welcome Back </h2>
 
-      {/* Summary cards */}
+      {/* Summary Cards */}
       <div className="summary-cards">
         <div className="card">
           <FaCalendarAlt className="card-icon" />
           <div>
             <p className="card-title">Appointments</p>
-            <p className="card-value">2 Upcoming</p>
+            <p className="card-value">{summary.appointments} Upcoming</p>
           </div>
         </div>
         <div className="card">
           <FaShoppingCart className="card-icon" />
           <div>
             <p className="card-title">Cart Items</p>
-            <p className="card-value">4</p>
+            <p className="card-value">{summary.cart_items}</p>
           </div>
         </div>
         <div className="card">
           <FaBox className="card-icon" />
           <div>
             <p className="card-title">Orders</p>
-            <p className="card-value">3</p>
+            <p className="card-value">{summary.orders}</p>
           </div>
         </div>
         <div className="card">
           <FaConciergeBell className="card-icon" />
           <div>
             <p className="card-title">Booked Services</p>
-            <p className="card-value">2</p>
+            <p className="card-value">{summary.booked_services}</p>
           </div>
         </div>
       </div>
@@ -89,28 +111,34 @@ export default function UserDashboard() {
         <Link to="/user/profile" className="btn">👤 Edit Profile</Link>
       </div>
 
-      {/* Recent Activities */}
+      {/* Recent Activity */}
       <div className="recent-activity">
         <h3><FaClock className="section-icon" /> Recent Activity</h3>
-        <ul>
-          {activities.map((log, index) => (
-            <li key={index}>
-              <span className="activity-time">{log.time}</span> - {log.activity}
-            </li>
-          ))}
-        </ul>
+        {summary.recent_logs.length > 0 ? (
+          <ul>
+            {summary.recent_logs.map((log, index) => (
+              <li key={index}>
+                <span className="activity-time">{log.time}</span> - {log.message}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No recent activity.</p>
+        )}
       </div>
 
       {/* Popular Products */}
       <div className="popular-products">
         <h3>🔥 Popular Products</h3>
         <div className="product-grid">
-          {popularProducts.map(product => (
+          {popularProducts.map((product) => (
             <div className="product-card" key={product.id}>
               <img src={product.image} alt={product.name} />
               <h4>{product.name}</h4>
               <p className="price">{product.price}</p>
-              <Link to={`/products/${product.id}`} className="btn small">View</Link>
+              <Link to={`/products/${product.id}`} className="btn small">
+                View
+              </Link>
             </div>
           ))}
         </div>

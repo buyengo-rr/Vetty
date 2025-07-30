@@ -1,98 +1,102 @@
-from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity
-from models import db, Product, User
+from flask import Blueprint, request, jsonify, current_app
+from werkzeug.utils import secure_filename
+from models import db
+from models.products import Product
+from middleware.auth import token_required, admin_required
+import os
 
-product_bp = Blueprint('product_bp', __name__)
+product_bp = Blueprint("product_bp", __name__)
 
-# --- Utility: check if current user is admin ---
-def is_admin(user_id):
-    user = User.query.get(user_id)
-    return user and user.role == 'admin'
+# ─────────────────────────────────────────────
+def save_image(file):
+    if not file:
+        return None
 
+    filename = secure_filename(file.filename)
 
-# --- Admin Only: Add Product ---
-@product_bp.route('/admin/products', methods=['POST'])
-@jwt_required()
-def add_product():
-    user_id = get_jwt_identity()
-    if not is_admin(user_id):
-        return jsonify({"error": "Unauthorized"}), 403
+    # Ensure uploads directory exists
+    upload_folder = os.path.join(current_app.root_path, "static", "uploads")
+    os.makedirs(upload_folder, exist_ok=True)
 
-    data = request.get_json()
+    filepath = os.path.join(upload_folder, filename)
+    file.save(filepath)
+
+    # Return the URL path for the image
+    return f"/static/uploads/{filename}"
+
+# ─────────────────────────────────────────────
+@product_bp.route("/product", methods=["GET"])
+def get_all_products():
+    products = Product.query.all()
+    return jsonify([p.to_dict() for p in products]), 200
+
+@product_bp.route("/product/<int:id>", methods=["GET"])
+def get_product_by_id(id):
+    product = Product.query.get_or_404(id)
+    return jsonify(product.to_dict()), 200
+
+@product_bp.route("/admin/product", methods=["GET"])
+@token_required
+def get_all_products_for_dashboard(current_user):
+    products = Product.query.all()
+    return jsonify([p.to_dict() for p in products]), 200
+
+@product_bp.route("/admin/product", methods=["POST"])
+@token_required
+@admin_required
+def create_product(current_user):
+    name = request.form.get("name")
+    price = request.form.get("price")
+    stock = request.form.get("stock")
+    description = request.form.get("description")
+    category = request.form.get("category")
+    ptype = request.form.get("type")
+    image_file = request.files.get("image")
+
+    if not name or not price:
+        return jsonify({"error": "Name and price are required"}), 400
+
+    image_url = save_image(image_file)
+
     new_product = Product(
-        name=data['name'],
-        price=data['price'],
-        stock=data['stock'],
-        type=data.get('type'),
-        description=data.get('description'),
-        image_url=data.get('image_url')
+        name=name,
+        price=float(price),
+        stock=int(stock or 0),
+        description=description,
+        category=category,
+        type=ptype,
+        image_url=image_url
     )
+
     db.session.add(new_product)
     db.session.commit()
-    return jsonify({"message": "Product added successfully", "product": new_product.to_dict()}), 201
+    return jsonify(new_product.to_dict()), 201
 
+@product_bp.route("/admin/product/<int:id>", methods=["PUT"])
+@token_required
+@admin_required
+def update_product(current_user, id):
+    product = Product.query.get_or_404(id)
 
-# --- Admin Only: Edit Product ---
-@product_bp.route('/admin/products/<int:product_id>', methods=['PUT'])
-@jwt_required()
-def edit_product(product_id):
-    user_id = get_jwt_identity()
-    if not is_admin(user_id):
-        return jsonify({"error": "Unauthorized"}), 403
+    product.name = request.form.get("name", product.name)
+    product.price = float(request.form.get("price", product.price))
+    product.stock = int(request.form.get("stock", product.stock))
+    product.description = request.form.get("description", product.description)
+    product.category = request.form.get("category", product.category)
+    product.type = request.form.get("type", product.type)
 
-    product = Product.query.get_or_404(product_id)
-    data = request.get_json()
-    product.name = data.get('name', product.name)
-    product.price = data.get('price', product.price)
-    product.stock = data.get('stock', product.stock)
-    product.type = data.get('type', product.type)
-    product.description = data.get('description', product.description)
-    product.image_url = data.get('image_url', product.image_url)
+    image_file = request.files.get("image")
+    if image_file:
+        product.image_url = save_image(image_file)
 
     db.session.commit()
-    return jsonify({"message": "Product updated", "product": product.to_dict()})
+    return jsonify(product.to_dict()), 200
 
-
-# --- Admin Only: Delete Product ---
-@product_bp.route('/admin/products/<int:product_id>', methods=['DELETE'])
-@jwt_required()
-def delete_product(product_id):
-    user_id = get_jwt_identity()
-    if not is_admin(user_id):
-        return jsonify({"error": "Unauthorized"}), 403
-
-    product = Product.query.get_or_404(product_id)
+@product_bp.route("/admin/product/<int:id>", methods=["DELETE"])
+@token_required
+@admin_required
+def delete_product(current_user, id):
+    product = Product.query.get_or_404(id)
     db.session.delete(product)
     db.session.commit()
-    return jsonify({"message": "Product deleted"}), 204
-
-
-# --- User & Admin: Get All Products ---
-@product_bp.route('/products', methods=['GET'])
-@jwt_required()
-def get_all_products():
-    page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 10, type=int)
-    product_type = request.args.get('type')
-
-    query = Product.query
-    if product_type:
-        query = query.filter_by(type=product_type)
-
-    pagination = query.paginate(page=page, per_page=per_page, error_out=False)
-    products = [product.to_dict() for product in pagination.items]
-
-    return jsonify({
-        "products": products,
-        "total": pagination.total,
-        "pages": pagination.pages,
-        "current_page": pagination.page
-    })
-
-
-# --- User & Admin: Get Single Product ---
-@product_bp.route('/products/<int:product_id>', methods=['GET'])
-@jwt_required()
-def get_single_product(product_id):
-    product = Product.query.get_or_404(product_id)
-    return jsonify(product.to_dict())
+    return jsonify({"message": "Product deleted successfully"}), 200

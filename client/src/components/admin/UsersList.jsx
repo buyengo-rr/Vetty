@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 
 function UsersList() {
@@ -13,21 +12,26 @@ function UsersList() {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch('/api/users');
+        const response = await fetch('http://localhost:5000/user/users', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const data = await response.json();
 
-        const userRoleUsers = data.filter(user => user.role === 'user');
-        setUsers(userRoleUsers);
-        setFilteredUsers(userRoleUsers);
+        const data = await response.json();
+        setUsers(data);
+        setFilteredUsers(data);
       } catch (err) {
         setError('Failed to fetch users. Please try again later.');
       } finally {
         setLoading(false);
       }
     }
+
     fetchUsers();
   }, []);
 
@@ -38,8 +42,8 @@ function UsersList() {
       const lowerQuery = searchQuery.toLowerCase();
       setFilteredUsers(
         users.filter(
-          user =>
-            (user.fullName && user.fullName.toLowerCase().includes(lowerQuery)) ||
+          (user) =>
+            (user.username && user.username.toLowerCase().includes(lowerQuery)) ||
             (user.email && user.email.toLowerCase().includes(lowerQuery))
         )
       );
@@ -53,7 +57,7 @@ function UsersList() {
         type="text"
         placeholder="Search by name or email"
         value={searchQuery}
-        onChange={e => setSearchQuery(e.target.value)}
+        onChange={(e) => setSearchQuery(e.target.value)}
         style={{
           marginBottom: '1rem',
           padding: '0.5rem',
@@ -68,7 +72,7 @@ function UsersList() {
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr>
-              <th style={{ borderBottom: '1px solid #ccc', textAlign: 'left', padding: '0.5rem' }}>Full Name</th>
+              <th style={{ borderBottom: '1px solid #ccc', textAlign: 'left', padding: '0.5rem' }}>Username</th>
               <th style={{ borderBottom: '1px solid #ccc', textAlign: 'left', padding: '0.5rem' }}>Email</th>
               <th style={{ borderBottom: '1px solid #ccc', textAlign: 'left', padding: '0.5rem' }}>Date Joined</th>
             </tr>
@@ -81,12 +85,12 @@ function UsersList() {
                 </td>
               </tr>
             ) : (
-              filteredUsers.map(user => (
+              filteredUsers.map((user) => (
                 <tr key={user.id}>
-                  <td style={{ borderBottom: '1px solid #eee', padding: '0.5rem' }}>{user.fullName || 'N/A'}</td>
+                  <td style={{ borderBottom: '1px solid #eee', padding: '0.5rem' }}>{user.username || 'N/A'}</td>
                   <td style={{ borderBottom: '1px solid #eee', padding: '0.5rem' }}>{user.email || 'N/A'}</td>
                   <td style={{ borderBottom: '1px solid #eee', padding: '0.5rem' }}>
-                    {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}
+                    {user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}
                   </td>
                 </tr>
               ))
@@ -99,4 +103,3 @@ function UsersList() {
 }
 
 export default UsersList;
-

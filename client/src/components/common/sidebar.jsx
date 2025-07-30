@@ -10,20 +10,21 @@ import {
   FaUsers,
   FaUserCircle,
   FaSignOutAlt,
-  FaInfoCircle,
-  FaEnvelope,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../styles/components.css";
 
-export default function Sidebar({ role = "user" }) {
+export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(window.innerWidth > 768);
+  const [role, setRole] = useState("user");
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (window.innerWidth <= 768) setIsOpen(false);
+    const storedRole = localStorage.getItem("role");
+    if (storedRole) setRole(storedRole);
   }, [location.pathname]);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
@@ -32,6 +33,7 @@ export default function Sidebar({ role = "user" }) {
     const confirmLogout = window.confirm("Are you sure you want to log out?");
     if (confirmLogout) {
       localStorage.removeItem("token");
+      localStorage.removeItem("role");
       toast.success("Logged out successfully!", {
         position: "center",
         autoClose: 2000,
@@ -47,7 +49,6 @@ export default function Sidebar({ role = "user" }) {
     { to: "/user/cart", label: "Cart", icon: <FaShoppingCart /> },
     { to: "/user/appointment", label: "Appointment", icon: <FaCalendarAlt /> },
     { to: "/user/profile", label: "Profile", icon: <FaUserCircle /> },
-    
   ];
 
   const adminLinks = [

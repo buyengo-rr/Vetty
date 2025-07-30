@@ -1,4 +1,5 @@
 from . import db
+from typing import Dict ,Any
 
 class OrderItem(db.Model):
     __tablename__ = 'order_items'
@@ -11,6 +12,16 @@ class OrderItem(db.Model):
    
     order = db.relationship('Order', back_populates='items')
     product = db.relationship('Product', back_populates='order_items')
+
+
+    def to_dict(self)->[Dict,Any]:
+        return {
+            "id": self.id,
+            "order_id": self.order_id,
+            "product_id": self.product_id,
+            "quantity": self.quantity,
+            "product": self.product.to_dict() if self.product else None
+        }
     
 
     def __repr__(self):

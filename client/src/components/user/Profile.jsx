@@ -5,7 +5,7 @@ import "../../styles/pages.css";
 
 export default function UserProfile() {
   const [user, setUser] = useState({
-    name: "",
+    full_name: "",
     email: "",
     phone: "",
     avatar: null,
@@ -18,8 +18,36 @@ export default function UserProfile() {
     if (!token) {
       toast.error("Unauthorized! Please log in.");
       navigate("/login");
+    } else {
+      fetchProfile(token);
     }
   }, [navigate]);
+
+  const fetchProfile = async (token) => {
+    try {
+      const res = await fetch("http://127.0.0.1:5000/profile/", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch profile");
+
+      const data = await res.json();
+      setUser({
+        full_name: data.name || "",
+        email: data.email || "",
+        phone: data.phone || "",
+        avatar: null,
+      });
+      if (data.avatar) {
+        setPreview(data.avatar);
+      }
+    } catch (err) {
+      toast.error("Error fetching profile");
+    }
+  };
 
   const validateInputs = () => {
     const emailRegex = /^\S+@\S+\.\S+$/;
@@ -49,11 +77,35 @@ export default function UserProfile() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateInputs()) return;
-    // Send to backend
-    toast.success("Profile updated successfully!");
+
+    const token = localStorage.getItem("token");
+    const formData = new FormData();
+    formData.append("full_name", user.full_name);
+    formData.append("email", user.email);
+    formData.append("phone", user.phone);
+    if (user.avatar) {
+      formData.append("profilePhoto", user.avatar);
+    }
+
+    try {
+      const res = await fetch("http://127.0.0.1:5000/profile/", {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Update failed");
+
+      const data = await res.json();
+      toast.success(data.message || "Profile updated successfully!");
+    } catch (err) {
+      toast.error("Failed to update profile");
+    }
   };
 
   const handleLogout = () => {
@@ -79,9 +131,9 @@ export default function UserProfile() {
 
           <input
             type="text"
-            name="name"
+            name="full_name"
             placeholder="Full Name"
-            value={user.name}
+            value={user.full_name}
             onChange={handleInputChange}
             required
           />

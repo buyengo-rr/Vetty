@@ -1,94 +1,95 @@
-// src/components/admin/ProductFormModal.jsx
 import React, { useState, useEffect } from "react";
-import { FaTimes } from "react-icons/fa";
+import "../../styles/pages.css";
 
-export default function ProductFormModal({ product, onClose, onSave }) {
-  const [form, setForm] = useState({
+const ProductFormModal = ({ visible, onClose, onSave, product }) => {
+  const [formData, setFormData] = useState({
+    id: "",
     name: "",
     price: "",
     stock: "",
     image: "",
-    type: "Food",
+    type: "",
   });
-  const [preview, setPreview] = useState("");
 
   useEffect(() => {
     if (product) {
-      setForm({
-        name: product.name || "",
-        price: product.price || "",
-        stock: product.stock || "",
-        image: product.image || "",
-        type: product.type || "Food",
+      setFormData(product);
+    } else {
+      setFormData({
+        id: "",
+        name: "",
+        price: "",
+        stock: "",
+        image: "",
+        type: "",
       });
-      setPreview(product.image || "");
     }
   }, [product]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    if (name === "image") {
-      const file = files[0];
-      setForm((prev) => ({ ...prev, image: file }));
-      setPreview(URL.createObjectURL(file));
-    } else {
-      setForm((prev) => ({ ...prev, [name]: value }));
-    }
+    setFormData((prev) => ({
+      ...prev,
+      [name]: files ? files[0] : value,
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!form.name || !form.price || !form.stock || !form.type) {
-      alert("All fields are required!");
-      return;
-    }
-
-    const data = {
-      ...form,
-      price: parseFloat(form.price),
-      stock: parseInt(form.stock),
-      id: product?.id,
-      image: preview,
-    };
-
-    onSave(data);
+    onSave(formData);
   };
+
+  if (!visible) return null;
 
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <div className="modal-header">
-          <h3>{product ? "Edit Product" : "Add Product"}</h3>
-          <button className="close-btn" onClick={onClose}><FaTimes /></button>
-        </div>
-
-        <form onSubmit={handleSubmit} className="modal-form">
-          <label>Name</label>
-          <input name="name" value={form.name} onChange={handleChange} required />
-
-          <label>Type</label>
-          <select name="type" value={form.type} onChange={handleChange} required>
-            <option value="Food">Food</option>
-            <option value="Toys">Toys</option>
-            <option value="Accessories">Accessories</option>
-          </select>
-
-          <label>Price (KES)</label>
-          <input type="number" name="price" value={form.price} onChange={handleChange} required />
-
-          <label>Stock</label>
-          <input type="number" name="stock" value={form.stock} onChange={handleChange} required />
-
-          <label>Product Image</label>
-          <input type="file" name="image" accept="image/*" onChange={handleChange} />
-          {preview && <img src={preview} alt="Preview" className="image-preview" />}
-
-          <button type="submit" className="save-btn">
-            {product ? "Update" : "Add"} Product
-          </button>
+        <h3>{product ? "Edit Product" : "Add Product"}</h3>
+        <form onSubmit={handleSubmit}>
+          <input
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Name"
+            required
+          />
+          <input
+            name="price"
+            value={formData.price}
+            onChange={handleChange}
+            placeholder="Price"
+            required
+          />
+          <input
+            name="stock"
+            value={formData.stock}
+            onChange={handleChange}
+            placeholder="Stock"
+            required
+          />
+          <input
+            name="type"
+            value={formData.type}
+            onChange={handleChange}
+            placeholder="Type"
+            required
+          />
+          <input
+            name="image"
+            type="file"
+            accept="image/*"
+            onChange={handleChange}
+          />
+          <div className="form-actions">
+            <button type="submit">{product ? "Update" : "Save"}</button>
+            <button type="button" onClick={onClose}>
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </div>
   );
-}
+};
+
+export default ProductFormModal;

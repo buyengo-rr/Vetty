@@ -22,19 +22,52 @@ export default function CheckoutPage() {
     }));
   };
 
-  const handlePlaceOrder = (e) => {
-    e.preventDefault();
+const handlePlaceOrder = async (e) => {
+  e.preventDefault();
 
-    if (!formData.name || !formData.phone || !formData.address) {
-      toast.error("Please fill in all the fields.");
-      return;
-    }
+  if (!formData.name || !formData.phone || !formData.address) {
+    toast.error("Please fill in all the fields.");
+    return;
+  }
 
-   
-    toast.success("Order placed successfully!");
-    clearCart();
-    navigate("/user/products"); 
+  const orderData = {
+    name: formData.name,
+    phone: formData.phone,
+    address: formData.address,
+    payment_method: formData.paymentMethod,
+    total: total,
+    is_paid: true, // assuming paid on checkout
+    products: cartItems.map(item => ({
+      product_id: item.id,
+      quantity: item.quantity,
+    })),
   };
+
+  try {
+    const res = await fetch("http://localhost:5000/order/checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(orderData),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      toast.success("Order placed successfully!");
+      clearCart();
+      navigate("/user/products");
+    } else {
+      toast.error(data.error || "Failed to place order.");
+    }
+  } catch (error) {
+    console.error("Checkout error:", error);
+    toast.error("An error occurred. Try again.");
+  }
+};
+
 
   return (
     <div className="checkout-container">

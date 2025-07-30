@@ -1,17 +1,21 @@
 from . import db
-from datetime import datetime
 
 class Cart(db.Model):
     __tablename__ = 'carts'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    quantity = db.Column(db.Integer, default=1)
 
-    user = db.relationship('User', backref='cart', uselist=False)
-    items = db.relationship('CartItem', back_populates='cart', cascade='all, delete-orphan')
-    total_price = db.Column(db.Float, default=0.0)
-    
 
-    def __repr__(self):
-        return f"<Cart User#{self.user_id}>"
+    user = db.relationship('User', back_populates='cart')
+    items = db.relationship('CartItem', back_populates='cart')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "product_id": self.product_id,
+            "quantity": self.quantity
+        }
