@@ -7,7 +7,6 @@ import Login from "./components/auth/Login";
 import Footer from './components/common/Footer';
 import Header from "./components/common/Header";
 import Sidebar from "./components/common/sidebar";
-import Modal from 'react-modal';
 import Home from './pages/Home';
 import About from "./pages/About";
 import Contact from "./pages/Contact";
